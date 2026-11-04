@@ -1,0 +1,194 @@
+/* Interview.css: the questions on the left, the chat window on the right. */
+.interview__grid {
+  display: grid;
+  grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+  gap: clamp(24px, 4vw, 56px);
+  align-items: start;
+}
+.interview__lead {
+  margin-bottom: 14px;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.interview__questions ul {
+  display: grid;
+  gap: 8px;
+}
+.question {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  padding: 12px 14px;
+  border: 2px solid var(--ink);
+  background: var(--card);
+  font-family: var(--font-display);
+  font-size: 18px;
+  font-weight: 600;
+  text-align: left;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s, transform 0.3s var(--ease-out), box-shadow 0.3s var(--ease-out);
+}
+.question:hover:not(:disabled) {
+  transform: translate(-3px, -3px);
+  box-shadow: 4px 4px 0 var(--ink);
+}
+.question:disabled {
+  cursor: wait;
+}
+.question__box {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 22px;
+  height: 22px;
+  border: 2px solid var(--ink);
+}
+.question__box svg {
+  width: 16px;
+  height: 16px;
+}
+.question.is-asked {
+  color: var(--muted);
+}
+.question.is-asked .question__box {
+  background: var(--yellow);
+  border-color: var(--yellow);
+  color: #151413;
+}
+
+.chat {
+  position: sticky;
+  top: 96px;
+  display: flex;
+  flex-direction: column;
+  height: min(620px, 78vh);
+  border: 2.5px solid var(--ink);
+  background: var(--card);
+}
+.chat__head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  border-bottom: 2.5px solid var(--ink);
+}
+.chat__avatar {
+  width: 44px;
+  flex: none;
+  border: 2px solid var(--ink);
+}
+.chat__name {
+  font-family: var(--font-display);
+  font-size: 18px;
+  font-weight: 700;
+}
+.chat__sub {
+  font-size: 11.5px;
+  color: var(--muted);
+}
+.chat__restart {
+  margin-left: auto;
+  padding: 6px 10px;
+  border: 1.5px solid var(--ink);
+  background: transparent;
+  font-size: 12px;
+  cursor: pointer;
+}
+.chat__restart:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+.chat__log {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 18px;
+  overflow-y: auto;
+  scrollbar-width: thin;
+}
+.msg {
+  max-width: 86%;
+  animation: msg-in 0.35s var(--ease-out);
+}
+@keyframes msg-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+}
+.msg p {
+  padding: 12px 15px;
+  font-size: 16.5px;
+  line-height: 1.5;
+}
+.msg--me p {
+  border: 2px solid var(--ink);
+  background: var(--bg);
+}
+.msg--you {
+  align-self: flex-end;
+}
+.msg--you p {
+  background: var(--blue);
+  color: var(--on-color);
+  font-weight: 550;
+}
+.msg__caret {
+  display: inline-block;
+  width: 9px;
+  height: 1em;
+  margin-left: 3px;
+  vertical-align: -0.12em;
+  background: var(--red);
+}
+/* "typing": three shapes bouncing in turn */
+.msg--typing {
+  display: flex;
+  gap: 6px;
+  padding: 14px 16px;
+  border: 2px solid var(--ink);
+  background: var(--bg);
+  width: fit-content;
+}
+.msg--typing span {
+  width: 10px;
+  height: 10px;
+  background: var(--blue);
+  border-radius: 50%;
+  animation: bounce 1s var(--ease-in-out) infinite;
+}
+.msg--typing span:nth-child(2) {
+  background: var(--red);
+  border-radius: 0;
+  animation-delay: 0.15s;
+}
+.msg--typing span:nth-child(3) {
+  background: var(--yellow);
+  border-radius: 0;
+  clip-path: polygon(50% 0, 100% 100%, 0 100%);
+  animation-delay: 0.3s;
+}
+@keyframes bounce {
+  0%,
+  100% {
+    transform: none;
+  }
+  40% {
+    transform: translateY(-7px);
+  }
+}
+
+@media (max-width: 860px) {
+  .interview__grid {
+    grid-template-columns: 1fr;
+  }
+  .chat {
+    position: static;
+    height: 480px;
+  }
+}

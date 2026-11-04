@@ -1,0 +1,31 @@
+/* Footer.css */
+.footer {
+  padding: 30px 0 36px;
+  border-top: 2.5px solid var(--ink);
+  font-size: 14.5px;
+  color: var(--muted);
+}
+.footer__inner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px 26px;
+}
+.footer__shapes {
+  display: flex;
+  gap: 4px;
+}
+.footer__built {
+  flex: 1 1 320px;
+}
+.footer__top {
+  margin-left: auto;
+  padding: 6px 2px;
+  border: none;
+  background: none;
+  font-family: var(--font-display);
+  font-size: 15px;
+  font-weight: 650;
+  color: var(--ink);
+  cursor: pointer;
+}

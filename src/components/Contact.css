@@ -1,0 +1,86 @@
+/* Contact.css: the big ending. */
+.contact {
+  overflow: hidden;
+  border-top: 3px solid var(--ink);
+}
+.contact__label {
+  font-size: 13px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.contact__title {
+  margin-top: 10px;
+  font-size: clamp(76px, 17vw, 260px);
+  font-weight: 800;
+  line-height: 0.85;
+  letter-spacing: -0.06em;
+  white-space: nowrap;
+}
+/* the "o" of hello: a blue circle that breathes */
+.contact__o {
+  display: inline-block;
+  width: 0.54em; /* about the height of the lowercase letters, like a real "o" */
+  height: 0.54em;
+  margin-left: 0.05em;
+  border-radius: 50%;
+  background: var(--blue);
+  vertical-align: baseline;
+  animation: breathe 3.2s var(--ease-in-out) infinite;
+}
+@keyframes breathe {
+  50% {
+    transform: scale(0.86);
+  }
+}
+.contact__grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: clamp(28px, 5vw, 72px);
+  margin-top: clamp(36px, 5vw, 64px);
+  padding-top: 28px;
+  border-top: 2.5px solid var(--ink);
+}
+.contact__text {
+  font-size: clamp(18px, 1.7vw, 22px);
+}
+.contact__pill {
+  margin-top: 20px;
+}
+.contact__time {
+  margin-top: 16px;
+  font-size: 13px;
+  color: var(--muted);
+}
+.contact__actions {
+  display: grid;
+  gap: 18px;
+  align-content: start;
+}
+.contact__email {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 14px 14px 14px 20px;
+  border: 2.5px solid var(--ink);
+  background: var(--card);
+}
+.contact__address {
+  font-family: var(--font-display);
+  font-size: clamp(18px, 2vw, 26px);
+  font-weight: 700;
+  overflow-wrap: anywhere;
+}
+.contact__links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+@media (max-width: 860px) {
+  .contact__grid {
+    grid-template-columns: 1fr;
+  }
+}

@@ -1,0 +1,52 @@
+/* Globe.css: flat Bauhaus colours. The sea is paper, the land ink, the trip red; each theme recolours it. */
+.globe {
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+.globe__sea {
+  fill: var(--bg-2);
+}
+.globe__grid {
+  fill: none;
+  stroke: var(--line-2);
+  stroke-width: 1;
+}
+.globe__land {
+  fill: var(--ink);
+  fill-opacity: 0.88;
+}
+.globe__rim {
+  fill: none;
+  stroke: var(--ink);
+  stroke-width: 3;
+}
+.globe__trip {
+  fill: none;
+  stroke: var(--red);
+  stroke-width: 5;
+  stroke-linecap: square;
+}
+.globe__mark {
+  transition: opacity 0.3s;
+}
+.globe__mark-a {
+  fill: var(--red);
+  stroke: var(--bg);
+  stroke-width: 3;
+}
+.globe__mark-b {
+  fill: var(--blue);
+  stroke: var(--bg);
+  stroke-width: 3;
+}
+.globe__mark text {
+  fill: var(--ink);
+  font-family: var(--font-display);
+  font-size: 22px;
+  font-weight: 700;
+  paint-order: stroke;
+  stroke: var(--bg);
+  stroke-width: 6px;
+  stroke-linejoin: round;
+}

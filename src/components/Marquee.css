@@ -1,0 +1,30 @@
+/* Marquee.css: the running band (ink in light mode, paper at night: it follows --ink). */
+.marquee-clip {
+  overflow: hidden;
+  padding: 26px 0;
+}
+.marquee {
+  overflow: hidden;
+  padding: 22px 0;
+  background: var(--ink);
+  color: var(--bg);
+  border-top: 2px solid var(--ink);
+  border-bottom: 2px solid var(--ink);
+  transform: rotate(-1.2deg) scale(1.02);
+}
+.marquee__track {
+  display: flex;
+  width: max-content;
+}
+.marquee__item {
+  display: inline-flex;
+  align-items: center;
+  gap: 22px;
+  padding-right: 48px;
+  font-family: var(--font-display);
+  font-size: clamp(34px, 5vw, 64px);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}

@@ -1,0 +1,80 @@
+/* VideoEmbed.css: a 16:9 frame; the cover is a small Bauhaus composition with a big play button. */
+.video {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  border: 2.5px solid var(--ink);
+  background: var(--ink);
+  overflow: hidden;
+}
+.video iframe,
+.video__cover {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+.video__cover {
+  padding: 0;
+  background: var(--ink);
+  color: var(--bg);
+  cursor: pointer;
+  overflow: hidden;
+}
+.video__shape {
+  position: absolute;
+  transition: transform 0.8s var(--ease-out);
+}
+.video__shape--a {
+  top: -18%;
+  left: -6%;
+  width: 46%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: var(--blue);
+}
+.video__shape--b {
+  right: 8%;
+  bottom: -10%;
+  width: 30%;
+  aspect-ratio: 1;
+  background: var(--red);
+}
+.video__cover:hover .video__shape--a {
+  transform: translate(6%, 6%);
+}
+.video__cover:hover .video__shape--b {
+  transform: rotate(14deg);
+}
+/* the play button: a big yellow triangle */
+.video__play {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 84px;
+  height: 84px;
+  background: var(--yellow);
+  clip-path: polygon(0 0, 100% 50%, 0 100%);
+  transform: translate(-38%, -50%);
+  transition: transform 0.4s var(--ease-out);
+}
+.video__cover:hover .video__play {
+  transform: translate(-38%, -50%) scale(1.12);
+}
+.video__title {
+  position: absolute;
+  left: 16px;
+  bottom: 14px;
+  font-family: var(--font-display);
+  font-size: 20px;
+  font-weight: 700;
+}
+.video__note {
+  position: absolute;
+  right: 14px;
+  top: 12px;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  opacity: 0.75;
+}

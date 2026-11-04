@@ -1,0 +1,76 @@
+/* Cursor.css: the follower's shapes. It sits on top of everything but never catches clicks. */
+.cursor {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 120;
+  pointer-events: none;
+}
+.cursor__shape {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--ink);
+  transform: translate(-50%, -50%);
+  transition: width 0.35s var(--ease-out), height 0.35s var(--ease-out), border-radius 0.35s, background 0.3s,
+    border-color 0.3s, clip-path 0.35s, opacity 0.3s;
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+}
+.cursor--none .cursor__shape {
+  opacity: 0;
+}
+.cursor--link .cursor__shape {
+  width: 46px;
+  height: 46px;
+  background: transparent;
+  border: 2px solid var(--ink);
+}
+.cursor--cloud .cursor__shape {
+  width: 28px;
+  height: 28px;
+  background: var(--blue);
+}
+.cursor--devops .cursor__shape {
+  width: 24px;
+  height: 24px;
+  border-radius: 0;
+  background: var(--red);
+}
+.cursor--ai .cursor__shape {
+  width: 30px;
+  height: 28px;
+  border-radius: 0;
+  background: var(--yellow);
+  clip-path: polygon(50% 0, 100% 100%, 0 100%);
+}
+.cursor--code .cursor__shape,
+.cursor--tools .cursor__shape {
+  width: 26px;
+  height: 13px;
+  border-radius: 26px 26px 0 0;
+  background: var(--ink);
+}
+.cursor--drag .cursor__shape {
+  width: 74px;
+  height: 74px;
+  background: var(--ink);
+}
+.cursor__label {
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform: translate(-50%, -50%);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--bg);
+  opacity: 0;
+  transition: opacity 0.25s;
+}
+.cursor--drag .cursor__label {
+  opacity: 1;
+}

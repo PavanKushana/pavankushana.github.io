@@ -1,0 +1,223 @@
+/* Nav.css: the top bar, the theme switch and the phone menu. */
+.nav {
+  position: fixed;
+  inset: 0 0 auto;
+  z-index: 50;
+  border-bottom: 2px solid transparent;
+  transition: background 0.35s, border-color 0.35s;
+  animation: nav-in 0.9s var(--ease-out) 0.1s both;
+}
+.nav--scrolled,
+.nav--open {
+  background: color-mix(in srgb, var(--bg) 88%, transparent);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom-color: var(--ink);
+}
+@keyframes nav-in {
+  from {
+    opacity: 0;
+    transform: translateY(-16px);
+  }
+}
+.nav__inner {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  height: 74px;
+  max-width: var(--container);
+  margin: 0 auto;
+  padding: 0 var(--gutter);
+}
+.nav__brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.nav__logo {
+  display: flex;
+  align-items: flex-end;
+  gap: 3px;
+}
+.nav__logo .shape {
+  transition: transform 0.5s var(--ease-out);
+}
+.nav__brand:hover .nav__logo .shape:nth-child(1) {
+  transform: translateY(-4px);
+}
+.nav__brand:hover .nav__logo .shape:nth-child(2) {
+  transform: rotate(45deg);
+}
+.nav__brand:hover .nav__logo .shape:nth-child(3) {
+  transform: translateY(-4px) rotate(180deg);
+}
+.nav__name {
+  font-family: var(--font-display);
+  font-size: 19px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+.nav__links {
+  display: flex;
+  gap: 4px;
+  margin-left: auto;
+}
+.nav__links a {
+  position: relative;
+  padding: 8px 12px;
+  font-family: var(--font-display);
+  font-size: 16.5px;
+  font-weight: 600;
+  color: var(--muted);
+  transition: color 0.2s;
+}
+.nav__links a::after {
+  content: "";
+  position: absolute;
+  left: 12px;
+  right: 12px;
+  bottom: 2px;
+  height: 3px;
+  background: var(--red);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.35s var(--ease-out);
+}
+.nav__links a:hover,
+.nav__links a.is-active {
+  color: var(--ink);
+}
+.nav__links a:hover::after,
+.nav__links a.is-active::after {
+  transform: scaleX(1);
+}
+.nav__end {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.nav__menu {
+  display: none;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border: 2px solid var(--ink);
+  background: transparent;
+  cursor: pointer;
+}
+.nav__menu svg {
+  width: 22px;
+  height: 22px;
+}
+
+/* the theme switch */
+.toggle {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border: 2px solid var(--ink);
+  border-radius: 50%;
+  background: transparent;
+  cursor: pointer;
+  transition: transform 0.4s var(--ease-out);
+}
+.toggle:hover {
+  transform: rotate(-20deg);
+}
+.toggle svg {
+  width: 28px;
+  height: 28px;
+  overflow: visible;
+}
+.toggle__body {
+  fill: var(--yellow);
+  transition: fill 0.5s;
+}
+.toggle__rays {
+  fill: var(--yellow);
+  transform-origin: 16px 16px;
+  transition: transform 0.5s var(--ease-out), opacity 0.4s;
+}
+.toggle__cut {
+  cx: 34px;
+  cy: 0px;
+  transition: cx 0.5s var(--ease-out), cy 0.5s var(--ease-out);
+}
+.toggle--dark .toggle__body {
+  fill: var(--ink);
+}
+.toggle--dark .toggle__rays {
+  transform: scale(0.4) rotate(90deg);
+  opacity: 0;
+}
+.toggle--dark .toggle__cut {
+  cx: 21px;
+  cy: 11px;
+}
+
+/* the phone menu */
+.nav__sheet {
+  position: fixed;
+  inset: 74px 0 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 24px var(--gutter);
+  background: var(--bg);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s;
+}
+.nav--open .nav__sheet {
+  opacity: 1;
+  pointer-events: auto;
+}
+.nav__sheet a {
+  opacity: 0;
+  transform: translateY(18px);
+  transition: transform 0.5s var(--ease-out), opacity 0.5s;
+  transition-delay: calc(var(--i) * 45ms);
+}
+.nav--open .nav__sheet a {
+  opacity: 1;
+  transform: none;
+}
+.nav__sheet a:not(.btn) {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 10px 0;
+  border-bottom: 2px solid var(--ink);
+  font-family: var(--font-display);
+  font-size: clamp(34px, 10vw, 46px);
+  font-weight: 700;
+}
+.nav__sheet .btn {
+  align-self: flex-start;
+  margin-top: 28px;
+}
+
+@media (max-width: 1040px) {
+  .nav__links a {
+    padding: 8px 9px;
+    font-size: 15.5px;
+  }
+}
+@media (max-width: 900px) {
+  .nav__links,
+  .nav__cv {
+    display: none;
+  }
+  .nav__end {
+    margin-left: auto;
+  }
+  .nav__menu {
+    display: grid;
+  }
+}
+@media (min-width: 901px) {
+  .nav__sheet {
+    display: none;
+  }
+}

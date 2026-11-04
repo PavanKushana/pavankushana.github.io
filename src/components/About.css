@@ -1,0 +1,155 @@
+/* About.css: portrait and story, the three field cards, the habits. */
+.about__intro {
+  display: grid;
+  grid-template-columns: minmax(0, 0.42fr) minmax(0, 0.58fr);
+  gap: clamp(32px, 6vw, 96px);
+  align-items: end;
+}
+.about__portrait {
+  aspect-ratio: 4 / 5;
+  border: 2.5px solid var(--ink);
+}
+.about__text {
+  display: grid;
+  gap: 22px;
+  font-size: clamp(18px, 1.7vw, 22px);
+  line-height: 1.6;
+}
+.about__text p:nth-child(2) {
+  color: var(--muted);
+}
+.about__note {
+  padding: 18px 20px;
+  border-left: 6px solid var(--yellow);
+  background: var(--bg-2);
+  font-size: clamp(16px, 1.4vw, 18px);
+  color: var(--ink-2);
+}
+
+/* three cards, each with its big shape */
+.fields {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin-top: clamp(80px, 10vw, 140px);
+  border-top: 2.5px solid var(--ink);
+  border-left: 2.5px solid var(--ink);
+}
+.field {
+  padding: clamp(24px, 3vw, 40px);
+  border-right: 2.5px solid var(--ink);
+  border-bottom: 2.5px solid var(--ink);
+  transition: background 0.4s;
+}
+.field h3 {
+  margin-top: 26px;
+  font-size: clamp(26px, 2.6vw, 34px);
+}
+.field p {
+  margin-top: 10px;
+  color: var(--muted);
+}
+.field--cloud:hover {
+  background: color-mix(in srgb, var(--blue) 9%, transparent);
+}
+.field--devops:hover {
+  background: color-mix(in srgb, var(--red) 9%, transparent);
+}
+.field--ai:hover {
+  background: color-mix(in srgb, var(--yellow) 14%, transparent);
+}
+.drawn {
+  width: clamp(80px, 9vw, 120px);
+  height: auto;
+  overflow: visible;
+  transition: transform 0.8s var(--ease-out);
+}
+.field:hover .drawn {
+  transform: rotate(-12deg) scale(1.06);
+}
+.drawn__path {
+  stroke: var(--ink);
+  stroke-width: 2.5;
+  stroke-dasharray: 100;
+  stroke-dashoffset: 0;
+  transition: stroke-dashoffset 1.4s var(--ease-in-out), fill-opacity 0.8s 1s;
+}
+.drawn--circle .drawn__path {
+  fill: var(--blue);
+}
+.drawn--square .drawn__path {
+  fill: var(--red);
+}
+.drawn--triangle .drawn__path {
+  fill: var(--yellow);
+}
+/* before its card scrolls in: no outline drawn yet and no fill */
+.js-motion .field:not(.is-in) .drawn__path {
+  stroke-dashoffset: 100;
+  fill-opacity: 0;
+}
+
+/* the habits, in four columns with rules between */
+.habits {
+  margin-top: clamp(80px, 10vw, 140px);
+}
+.habits__title {
+  font-size: clamp(28px, 3vw, 40px);
+  margin-bottom: 26px;
+}
+.habits__list {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0;
+}
+.habits__list li {
+  padding: 22px 24px 8px 0;
+  border-top: 2.5px solid var(--ink);
+}
+.habits__list li + li {
+  padding-left: 24px;
+  border-left: 1.5px solid var(--line-2);
+}
+.habits__num {
+  font-family: var(--font-display);
+  font-size: 44px;
+  font-weight: 800;
+  line-height: 1;
+  color: var(--red);
+}
+.habits__list h4 {
+  margin-top: 14px;
+  font-size: 21px;
+}
+.habits__list p {
+  margin-top: 8px;
+  color: var(--muted);
+  font-size: 16px;
+}
+
+@media (max-width: 900px) {
+  .about__intro {
+    grid-template-columns: 1fr;
+  }
+  .about__portrait {
+    max-width: 360px;
+  }
+  .fields {
+    grid-template-columns: 1fr;
+  }
+  .habits__list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .habits__list li:nth-child(3) {
+    padding-left: 0;
+    border-left: none;
+  }
+}
+@media (max-width: 560px) {
+  .habits__list {
+    grid-template-columns: 1fr;
+  }
+  .habits__list li + li {
+    padding-left: 0;
+    border-left: none;
+  }
+}

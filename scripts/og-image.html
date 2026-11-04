@@ -1,0 +1,33 @@
+<!doctype html>
+<!-- og-image.html: the picture LinkedIn, WhatsApp and others show when the site's link is shared (1200x630).
+     make-og.mjs saves it as public/og-image.png. Bauhaus: paper, ink and Kandinsky's three shapes. -->
+<meta charset="utf-8">
+<style>
+  @font-face { font-family: Display; src: url("../node_modules/@fontsource-variable/league-spartan/files/league-spartan-latin-wght-normal.woff2"); font-weight: 100 900; }
+  @font-face { font-family: Body; src: url("../node_modules/@fontsource-variable/dm-sans/files/dm-sans-latin-wght-normal.woff2"); font-weight: 100 1000; }
+  @font-face { font-family: Mono; src: url("../node_modules/@fontsource/dm-mono/files/dm-mono-latin-500-normal.woff2"); font-weight: 500; }
+  * { box-sizing: border-box; margin: 0; }
+  body { width: 1200px; height: 630px; overflow: hidden; position: relative; background: #f2ede3; color: #151413; font-family: Body, sans-serif;
+    background-image: linear-gradient(rgba(21,20,19,.08) 1px, transparent 1px), linear-gradient(90deg, rgba(21,20,19,.08) 1px, transparent 1px);
+    background-size: 60px 60px; }
+  .frame { position: absolute; inset: 28px; border: 4px solid #151413; }
+  .eyebrow { position: absolute; left: 76px; top: 70px; font-family: Mono; font-size: 20px; letter-spacing: 0.14em; text-transform: uppercase; color: #5a554d; }
+  h1 { position: absolute; left: 70px; top: 112px; font-family: Display; font-weight: 800; font-size: 138px; line-height: 0.86; letter-spacing: -0.05em; }
+  .fields { position: absolute; left: 76px; top: 420px; display: flex; gap: 34px; font-family: Display; font-weight: 700; font-size: 42px; }
+  .fields span { display: inline-flex; align-items: center; gap: 14px; }
+  .meta { position: absolute; left: 76px; bottom: 64px; font-size: 24px; color: #5a554d; }
+  .circle { position: absolute; right: 120px; top: 70px; width: 250px; height: 250px; border-radius: 50%; background: #1f4fbf; }
+  .square { position: absolute; right: 70px; top: 280px; width: 190px; height: 190px; background: #c4331e; transform: rotate(-12deg); }
+  .tri { position: absolute; right: 280px; top: 300px; width: 230px; height: 210px; background: #f0b400; clip-path: polygon(50% 0, 100% 100%, 0 100%); }
+  .bar { position: absolute; right: 74px; bottom: 70px; width: 140px; height: 22px; background: #151413; }
+  i { display: inline-block; width: 30px; height: 30px; }
+  .c { border-radius: 50%; background: #1f4fbf; } .s { background: #c4331e; } .t { background: #f0b400; clip-path: polygon(50% 0, 100% 100%, 0 100%); }
+</style>
+<body>
+  <div class="frame"></div>
+  <span class="circle"></span><span class="tri"></span><span class="square"></span><span class="bar"></span>
+  <p class="eyebrow">Portfolio · Weimar</p>
+  <h1>Pavan Sai<br>Kushana</h1>
+  <p class="fields"><span><i class="c"></i>Cloud</span><span><i class="s"></i>DevOps</span><span><i class="t"></i>AI</span></p>
+  <p class="meta">Master's student at Bauhaus-Universität Weimar · open to working student roles</p>
+</body>

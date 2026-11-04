@@ -1,0 +1,68 @@
+<!doctype html>
+<!-- index.html: the page shell. React fills #root (src/main.jsx). The meta tags are what Google, LinkedIn and
+     WhatsApp show when someone shares the link. %VITE_SITE_URL% comes from .env. -->
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pavan Sai Kushana · Cloud, DevOps and AI</title>
+    <meta name="description" content="Pavan Sai Kushana, Master's student in Computer Science for Digital Media at Bauhaus-Universität Weimar. Cloud, Linux, DevOps and AI agents. Open to working student roles and internships in Germany." />
+    <meta name="author" content="Pavan Sai Kushana" />
+    <meta name="theme-color" content="#f2ede3" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#111110" media="(prefers-color-scheme: dark)" />
+    <meta name="color-scheme" content="light dark" />
+    <link rel="icon" href="./favicon.svg" type="image/svg+xml" />
+    <link rel="canonical" href="%VITE_SITE_URL%/" />
+
+    <!-- runs before the first paint, so there's no flash of the wrong theme:
+         1. the visitor's own choice from last time, else their system's light or dark setting;
+         2. parts that fade in on scroll start hidden only when animations will run -->
+    <script>
+      (function () {
+        var saved = null;
+        try {
+          saved = localStorage.getItem("theme");
+        } catch (e) {}
+        var dark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+        document.documentElement.dataset.theme = saved || (dark ? "dark" : "light");
+        if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+          document.documentElement.classList.add("js-motion");
+        }
+      })();
+    </script>
+
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Pavan Sai Kushana · Cloud, DevOps and AI" />
+    <meta property="og:description" content="Master's student at Bauhaus-Universität Weimar, working on cloud infrastructure, DevOps and AI systems, with hands-on AWS experience from an IT operations internship." />
+    <meta property="og:url" content="%VITE_SITE_URL%/" />
+    <meta property="og:image" content="%VITE_SITE_URL%/og-image.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Person",
+        "name": "Pavan Sai Kushana",
+        "url": "%VITE_SITE_URL%/",
+        "jobTitle": "Master's student, Computer Science for Digital Media",
+        "address": { "@type": "PostalAddress", "addressLocality": "Weimar", "addressCountry": "DE" },
+        "alumniOf": ["Bauhaus-Universität Weimar", "Institute of Aeronautical Engineering"],
+        "knowsAbout": ["AWS", "Linux", "Python", "DevOps", "Docker", "Kubernetes", "AI agents", "LLM evaluation"],
+        "sameAs": ["https://github.com/PavanKushana", "https://www.linkedin.com/in/pavankushana"]
+      }
+    </script>
+  </head>
+  <body>
+    <noscript>
+      <p style="padding: 24px; font-family: sans-serif">
+        Pavan Sai Kushana, cloud, DevOps and AI. This page needs JavaScript for its animations. You can reach me at
+        pavansai.kushana@gmail.com, on <a href="https://github.com/PavanKushana">GitHub</a> and on
+        <a href="https://www.linkedin.com/in/pavankushana">LinkedIn</a>.
+      </p>
+    </noscript>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>

@@ -1,0 +1,249 @@
+/* Exhibition.css: the row of posters (pinned and sliding on computers, swiped on phones) and the art's motion. */
+.expo {
+  padding-bottom: 0;
+}
+.expo__stage {
+  display: flex;
+  align-items: center;
+  min-height: 100vh;
+  overflow: hidden;
+}
+.expo__track {
+  display: flex;
+  align-items: stretch;
+  gap: 28px;
+  width: max-content;
+  /* line the first poster up with the page's content column */
+  padding: 40px max(var(--gutter), calc((100vw - var(--container)) / 2 + var(--gutter)));
+}
+.expo__intro {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: clamp(240px, 22vw, 320px);
+  padding: 8px 0;
+  font-size: clamp(19px, 1.8vw, 24px);
+  line-height: 1.45;
+}
+.expo__hint {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 13px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.expo__hint svg {
+  width: 18px;
+  height: 18px;
+  animation: nudge 1.6s var(--ease-in-out) infinite;
+}
+@keyframes nudge {
+  50% {
+    transform: translateX(8px);
+  }
+}
+.expo__hint-swipe {
+  display: none;
+}
+
+.poster {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: clamp(290px, 28vw, 400px);
+  border: 2.5px solid var(--ink);
+  background: var(--card);
+  transition: transform 0.4s var(--ease-out), box-shadow 0.4s var(--ease-out);
+}
+.poster:hover {
+  transform: translate(-5px, -5px);
+  box-shadow: 8px 8px 0 var(--ink);
+}
+.poster__num {
+  position: absolute;
+  top: 12px;
+  left: 14px;
+  z-index: 1;
+  font-family: var(--font-display);
+  font-size: 30px;
+  font-weight: 800;
+}
+.poster__art {
+  aspect-ratio: 1;
+  border-bottom: 2.5px solid var(--ink);
+  background: var(--bg-2);
+}
+.poster__art .art {
+  width: 100%;
+  height: 100%;
+}
+.poster__body {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 10px;
+  padding: 20px 22px 22px;
+}
+.poster__meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 12.5px;
+  letter-spacing: 0.1em;
+  color: var(--muted);
+}
+.poster__fields {
+  display: inline-flex;
+  gap: 6px;
+}
+.poster__title {
+  font-size: clamp(24px, 2.2vw, 31px);
+  line-height: 1;
+}
+.poster__tagline {
+  color: var(--muted);
+}
+.poster__open {
+  align-self: flex-start;
+  margin-top: auto;
+}
+.poster__list {
+  display: grid;
+  gap: 8px;
+  margin-top: 4px;
+  color: var(--muted);
+}
+.poster__list li {
+  padding-left: 18px;
+  position: relative;
+}
+.poster__list li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.55em;
+  width: 9px;
+  height: 9px;
+  background: var(--yellow);
+}
+
+/* the art's motion */
+.art__ring {
+  transform-origin: 168px 178px;
+  animation: spin 22s linear infinite;
+}
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+.art__alert {
+  transform-origin: 242px 236px;
+  animation: alert 1.8s ease-out infinite;
+}
+@keyframes alert {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.5);
+    opacity: 0.55;
+  }
+}
+.art__boxes rect {
+  animation: hop 2.4s var(--ease-in-out) infinite;
+}
+.art__boxes rect:nth-child(2) {
+  animation-delay: 0.2s;
+}
+.art__boxes rect:nth-child(3) {
+  animation-delay: 0.4s;
+}
+@keyframes hop {
+  0%,
+  60%,
+  100% {
+    transform: none;
+  }
+  30% {
+    transform: translateY(-12px);
+  }
+}
+.art__arg {
+  animation: argue 3.6s var(--ease-in-out) infinite;
+}
+.art__arg--2 {
+  animation-delay: 1.8s;
+}
+@keyframes argue {
+  0%,
+  10% {
+    transform: none;
+  }
+  45%,
+  55% {
+    transform: translateX(140px);
+  }
+  90%,
+  100% {
+    transform: none;
+  }
+}
+.art__route {
+  stroke-dasharray: 100;
+  animation: route 4s var(--ease-in-out) infinite;
+}
+@keyframes route {
+  0% {
+    stroke-dashoffset: 100;
+  }
+  55%,
+  80% {
+    stroke-dashoffset: 0;
+  }
+  100% {
+    stroke-dashoffset: -100;
+  }
+}
+.art__rise {
+  animation: rise 3s var(--ease-in-out) infinite;
+}
+@keyframes rise {
+  50% {
+    transform: translateY(-12px);
+  }
+}
+
+/* ---------- phones (and reduced motion): a row you swipe ---------- */
+@media (max-width: 900px), (prefers-reduced-motion: reduce) {
+  .expo__stage {
+    min-height: 0;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-padding-left: var(--gutter); /* snapping keeps the page margin instead of touching the edge */
+    scrollbar-width: none;
+  }
+  .expo__stage::-webkit-scrollbar {
+    display: none;
+  }
+  .expo__track {
+    padding: 8px var(--gutter) 40px;
+  }
+  .poster,
+  .expo__intro {
+    scroll-snap-align: start;
+  }
+  .poster {
+    width: min(82vw, 360px);
+  }
+  .expo__hint-scroll {
+    display: none;
+  }
+  .expo__hint-swipe {
+    display: inline;
+  }
+}

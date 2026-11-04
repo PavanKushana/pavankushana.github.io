@@ -1,0 +1,89 @@
+/* Photo.css: photo frames in Bauhaus shapes, and how an empty one looks. */
+.photo {
+  position: relative;
+  margin: 0;
+  overflow: hidden;
+  background: var(--bg-2);
+}
+.photo--circle {
+  border-radius: 50%;
+  aspect-ratio: 1;
+}
+.photo--arch {
+  border-radius: 999px 999px 0 0;
+}
+.photo--half {
+  border-radius: 999px 999px 0 0;
+  aspect-ratio: 2 / 1;
+}
+.photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  /* two tones of the theme until you hover: the photos look like one series */
+  filter: grayscale(1) contrast(1.05);
+  mix-blend-mode: multiply;
+  transition: filter 0.6s, transform 0.9s var(--ease-out);
+}
+:root[data-theme="dark"] .photo img {
+  mix-blend-mode: normal;
+  filter: grayscale(1) brightness(0.9);
+}
+.photo:hover img {
+  filter: none;
+  transform: scale(1.03);
+}
+
+/* an empty frame: fine diagonal lines, one big shape, and the label */
+.photo__empty {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  background: repeating-linear-gradient(135deg, transparent 0 11px, var(--line) 11px 12px), var(--bg-2);
+}
+.photo__art {
+  position: absolute;
+  width: 46%;
+  aspect-ratio: 1;
+  opacity: 0.9;
+  transition: transform 0.9s var(--ease-out);
+}
+.photo:hover .photo__art {
+  transform: rotate(-8deg) scale(1.05);
+}
+.photo__art--circle {
+  border-radius: 50%;
+  background: var(--blue);
+}
+.photo__art--square {
+  background: var(--red);
+}
+.photo__art--triangle {
+  background: var(--yellow);
+  clip-path: polygon(50% 4%, 100% 96%, 0 96%);
+}
+.photo__label {
+  position: relative;
+  display: grid;
+  gap: 2px;
+  padding: 8px 12px;
+  background: var(--bg);
+  border: 1.5px solid var(--ink);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  line-height: 1.35;
+  text-align: center;
+}
+.photo__label strong {
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.photo__label span {
+  color: var(--muted);
+}
+.photo--circle .photo__label,
+.photo--half .photo__label {
+  margin-top: 18%;
+}

@@ -1,0 +1,47 @@
+/* Playground.css: the physics frame, on a Bauhaus grid. */
+.play {
+  position: relative;
+  height: clamp(380px, 64vh, 640px);
+  border: 2.5px solid var(--ink);
+  background-color: var(--bg-2);
+  background-image: linear-gradient(var(--line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--line) 1px, transparent 1px);
+  background-size: 44px 44px;
+  overflow: hidden;
+}
+.play canvas {
+  width: 100%;
+  height: 100%;
+}
+.play__hint {
+  position: absolute;
+  top: 12px;
+  left: 14px;
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+  pointer-events: none;
+}
+.play__shake {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  padding: 6px 12px;
+  border: 1.5px solid var(--ink);
+  background: var(--bg);
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+.play__shake:hover {
+  background: var(--ink);
+  color: var(--bg);
+}
+@media (max-width: 900px) {
+  .play {
+    height: clamp(320px, 56vh, 440px);
+  }
+}
