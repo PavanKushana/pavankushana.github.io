@@ -218,8 +218,8 @@
   }
 }
 
-/* ---------- phones (and reduced motion): a row you swipe ---------- */
-@media (max-width: 900px), (prefers-reduced-motion: reduce) {
+/* ---------- computers with reduced motion: a row you scroll sideways ---------- */
+@media (min-width: 901px) and (prefers-reduced-motion: reduce) {
   .expo__stage {
     min-height: 0;
     overflow-x: auto;
@@ -245,5 +245,44 @@
   }
   .expo__hint-swipe {
     display: inline;
+  }
+}
+
+/* ---------- phones and small tablets: the posters stacked, one under the other ----------
+   A sideways row cut the posters off at the screen's edge, so on small screens every poster gets
+   the full width and you simply scroll down through them. */
+@media (max-width: 900px) {
+  .expo {
+    padding-bottom: 40px;
+  }
+  .expo__stage {
+    display: block;
+    min-height: 0;
+    overflow: visible;
+  }
+  .expo__track {
+    flex-direction: column;
+    gap: 22px;
+    width: auto;
+    padding: 8px var(--gutter) 0;
+  }
+  .expo__intro {
+    width: auto;
+    padding: 0;
+    font-size: 18px;
+  }
+  .expo__hint {
+    display: none;
+  }
+  .poster {
+    width: 100%;
+    max-width: 560px;
+  }
+  .poster:hover {
+    transform: none;
+    box-shadow: none;
+  }
+  .poster__art {
+    aspect-ratio: 4 / 3;
   }
 }

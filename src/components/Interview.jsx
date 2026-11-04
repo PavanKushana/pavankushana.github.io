@@ -8,7 +8,7 @@ import { interview, person } from "../content";
 import { CheckIcon } from "./Icons";
 import "./Interview.css";
 
-const HELLO = { from: "me", text: `Hi, I'm ${person.firstName}. Pick a question on the left. These are my real answers.` };
+const HELLO = { from: "me", text: `Hi, I'm ${person.firstName}. Pick a question and I'll answer. These are my real answers.` };
 const WORD_MS = 38; // how fast an answer streams in
 
 /** One message. A new answer from me streams in word by word (unless reduced motion), then stays. */
