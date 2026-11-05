@@ -1,0 +1,5 @@
+# robots.txt: tells search engines (Google, Bing) they may read the whole site, and where the sitemap is.
+User-agent: *
+Allow: /
+
+Sitemap: https://pavankushana.com/sitemap.xml
