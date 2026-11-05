@@ -40,6 +40,17 @@
   stroke: var(--bg);
   stroke-width: 3;
 }
+/* the plane flying along the trip line */
+.globe__plane {
+  transition: opacity 0.25s;
+}
+.globe__plane path {
+  fill: var(--yellow);
+  stroke: var(--ink);
+  stroke-width: 1.5px;
+  paint-order: stroke;
+  vector-effect: non-scaling-stroke;
+}
 .globe__mark text {
   fill: var(--ink);
   font-family: var(--font-display);

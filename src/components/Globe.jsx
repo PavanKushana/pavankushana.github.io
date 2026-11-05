@@ -20,6 +20,7 @@ const Globe = forwardRef(function Globe({ from, to, start }, ref) {
   const trip = useRef(null);
   const markA = useRef(null);
   const markB = useRef(null);
+  const plane = useRef(null);
 
   const projection = useMemo(() => geoOrthographic().scale(SIZE / 2 - 8).translate([SIZE / 2, SIZE / 2]).clipAngle(90), []);
   const path = useMemo(() => geoPath(projection), [projection]);
@@ -43,6 +44,24 @@ const Globe = forwardRef(function Globe({ from, to, start }, ref) {
     trip.current.setAttribute("d", tripDone > 0 ? path({ type: "LineString", coordinates: points }) || "" : "");
     place(markA.current, from.coords, center);
     place(markB.current, to.coords, center);
+    flyPlane(tripDone, center);
+  };
+
+  /** Puts the plane at the front of the trip line, nose pointing along the route. Hidden before take-off and
+      after landing, so the still picture shows only the finished line. */
+  const flyPlane = (tripDone, center) => {
+    const el = plane.current;
+    const flying = tripDone > 0.01 && tripDone < 0.985;
+    if (!flying) {
+      el.style.opacity = "0";
+      return;
+    }
+    const here = between(tripDone);
+    const [x, y] = projection(here);
+    const [nextX, nextY] = projection(between(Math.min(1, tripDone + 0.01)));
+    const angle = (Math.atan2(nextY - y, nextX - x) * 180) / Math.PI + 90; // the icon's nose points up
+    el.setAttribute("transform", `translate(${x.toFixed(1)} ${y.toFixed(1)}) rotate(${angle.toFixed(1)})`);
+    el.style.opacity = geoDistance(here, center) < Math.PI / 2 - 0.05 ? "1" : "0";
   };
 
   useImperativeHandle(ref, () => ({ render }));
@@ -66,6 +85,11 @@ const Globe = forwardRef(function Globe({ from, to, start }, ref) {
       <g ref={markB} className="globe__mark">
         <circle r="10" className="globe__mark-b" />
         <text x="16" y="5">{to.name}</text>
+      </g>
+      {/* the plane: Material Design's "flight" icon (Apache 2.0), centred on its own middle */}
+      <g ref={plane} className="globe__plane" aria-hidden="true">
+        <path transform="scale(2.4) translate(-12 -12)"
+          d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z" />
       </g>
     </svg>
   );

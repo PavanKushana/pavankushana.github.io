@@ -1,43 +1,21 @@
-// theme.js: light ("paper") and dark ("night"). The choice is kept in the browser (localStorage) so the site
-// remembers it. Switching is animated as a circle growing from the button, with the View Transitions API where
-// the browser has it, and an instant switch where it doesn't (or with reduced motion).
-import { useCallback, useEffect, useState } from "react";
+// theme.js: light ("paper") and dark ("night"). The site always opens in light (index.html sets it, Pavan's
+// choice); the switch changes the theme for the current visit only, so it isn't saved. Switching is animated
+// as a circle growing from the button, with the View Transitions API where the browser has it, and an instant
+// switch where it doesn't (or with reduced motion).
+import { useCallback, useState } from "react";
 import { flushSync } from "react-dom";
 
 const current = () => document.documentElement.dataset.theme || "light";
 
-/** The theme, a function to switch it, and a counter that changes on every switch (canvases redraw on it). */
+/** The theme and a function to switch it. */
 export function useTheme() {
   const [theme, setTheme] = useState(current);
-
-  // without a saved choice, follow the system if it changes while the page is open
-  useEffect(() => {
-    const media = window.matchMedia("(prefers-color-scheme: dark)");
-    const onChange = () => {
-      let saved = null;
-      try {
-        saved = localStorage.getItem("theme");
-      } catch {
-        /* storage blocked: just follow the system */
-      }
-      if (saved) return;
-      document.documentElement.dataset.theme = media.matches ? "dark" : "light";
-      setTheme(current());
-    };
-    media.addEventListener("change", onChange);
-    return () => media.removeEventListener("change", onChange);
-  }, []);
 
   /** Switches theme. event: the click, so the circle starts where the button is. */
   const toggle = useCallback((event) => {
     const next = current() === "dark" ? "light" : "dark";
     const apply = () => {
       document.documentElement.dataset.theme = next;
-      try {
-        localStorage.setItem("theme", next);
-      } catch {
-        /* storage blocked: the switch still works for this visit */
-      }
       flushSync(() => setTheme(next)); // React updates inside the transition's "after" snapshot
     };
 

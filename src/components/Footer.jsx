@@ -1,4 +1,4 @@
-// Footer.jsx: the last line: the three shapes, copyright, where it's made, how it was built, back to the top.
+// Footer.jsx: the last line: the three shapes, copyright, how it was built, back to the top.
 import { person } from "../content";
 import { scrollToId } from "../hooks/motion";
 import { Shape } from "./Shape";
@@ -14,7 +14,7 @@ export default function Footer() {
           <Shape kind="triangle" color="var(--yellow)" size={18} />
         </p>
         <p>
-          © {new Date().getFullYear()} {person.name}. Made in Weimar, where the Bauhaus began.
+          © {new Date().getFullYear()} {person.name}
         </p>
         <p className="footer__built">
           Built with React, GSAP, Lenis, matter-js and d3-geo, with help from Claude Code. Effects from React Bits.

@@ -35,7 +35,7 @@ export const nav = [
 // publishing without photos, and the empty frames are just shapes.
 export const showPhotoLabels = false;
 export const photos = {
-  portrait: { src: "photos/portrait.jpg", alt: "Pavan Sai Kushana", label: "Your portrait", hint: "upright, 4:5" },
+  portrait: { src: "photos/portrait-2.jpg", alt: "Pavan Sai Kushana", label: "Your portrait", hint: "upright, 4:5" },
   debate: { src: "photos/debate-team.jpg", alt: "The Debate Arena project team", label: "Debate Arena", hint: "landscape" },
   // the collage's big rectangle (the slot is still called weimar; the photo is from a trip to Budapest)
   weimar: { src: "photos/budapest-heroes-square.jpg", alt: "Me at Heroes' Square in Budapest", label: "Weimar", hint: "landscape, 4:3" },
@@ -46,7 +46,7 @@ export const photos = {
 };
 
 export const hero = {
-  eyebrow: "Portfolio · Weimar · 2026",
+  eyebrow: "Portfolio · Weimar, Germany · 2026",
   status: "Open to working student roles and internships",
   intro:
     "Master's student in Computer Science for Digital Media at Bauhaus-Universität Weimar. I work on cloud " +
@@ -76,7 +76,8 @@ export const about = {
   paragraphs: [
     "I studied Information Technology in India and did an IT operations internship at Sears, working on AWS " +
       "infrastructure. That's where I got into cloud. Now I'm doing my Master's at Bauhaus-Universität Weimar.",
-    "I'm learning Docker, Kubernetes and CI/CD, and I test AI systems before I trust them. My latest project, " +
+    "Alongside my studies, I'm preparing for cloud and DevOps engineering roles. I'm learning Docker, Kubernetes " +
+      "and CI/CD, and working towards the AWS Solutions Architect Associate certification. My latest project, " +
       "Lifeguard-Agent, is an AI on-call engineer that finds why a server broke and suggests fixes, but changes " +
       "nothing without a human's approval.",
   ],

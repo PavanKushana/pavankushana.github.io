@@ -14,17 +14,12 @@
     <link rel="icon" href="./favicon.svg" type="image/svg+xml" />
     <link rel="canonical" href="%VITE_SITE_URL%/" />
 
-    <!-- runs before the first paint, so there's no flash of the wrong theme:
-         1. the visitor's own choice from last time, else their system's light or dark setting;
+    <!-- runs before the first paint:
+         1. the site always opens in the light theme (Pavan's choice); the switch in the menu still works for the visit;
          2. parts that fade in on scroll start hidden only when animations will run -->
     <script>
       (function () {
-        var saved = null;
-        try {
-          saved = localStorage.getItem("theme");
-        } catch (e) {}
-        var dark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-        document.documentElement.dataset.theme = saved || (dark ? "dark" : "light");
+        document.documentElement.dataset.theme = "light";
         if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
           document.documentElement.classList.add("js-motion");
         }

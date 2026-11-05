@@ -56,6 +56,30 @@ export default function Journey({ reduced }) {
           if (counter.current) counter.current.textContent = km(1);
         };
       });
+      // phones and small tablets: the section isn't pinned, but the trip (and the plane) still follows the scroll
+      // while the globe passes through the screen
+      media.add("(max-width: 900px) and (prefers-reduced-motion: no-preference)", () => {
+        view.current = { turn: 0, trip: 0 };
+        globe.current?.render(0, 0);
+        if (counter.current) counter.current.textContent = km(0);
+        ScrollTrigger.create({
+          trigger: ".journey__globe",
+          start: "top 85%",
+          end: "bottom 35%",
+          scrub: true,
+          onUpdate: ({ progress }) => {
+            const share = easeInOut(progress);
+            view.current = { turn: share, trip: share };
+            globe.current?.render(share, share);
+            if (counter.current) counter.current.textContent = km(share);
+          },
+        });
+        return () => {
+          view.current = STILL;
+          globe.current?.render(STILL.turn, STILL.trip);
+          if (counter.current) counter.current.textContent = km(1);
+        };
+      });
       return () => media.revert();
     },
     { scope: root, dependencies: [reduced] },

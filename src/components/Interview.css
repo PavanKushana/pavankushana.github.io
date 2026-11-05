@@ -81,6 +81,10 @@
   flex: none;
   border: 2px solid var(--ink);
 }
+/* the portrait is a half-body photo: aim the small circle at the face, not the middle */
+.chat__avatar img {
+  object-position: 50% 28%;
+}
 .chat__name {
   font-family: var(--font-display);
   font-size: 18px;

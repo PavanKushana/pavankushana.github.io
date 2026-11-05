@@ -45,9 +45,12 @@ try {
     page.on("console", (message) => {
       if (message.type() === "error") problems.push(`[${run.name}] console: ${message.text()}`);
     });
-    // the theme is chosen the way a returning visitor's would be: from localStorage, before the page loads
-    await page.evaluateOnNewDocument((theme) => localStorage.setItem("theme", theme), run.theme);
+    // the site always opens in light, even when the system is set to dark; the dark runs use the switch
+    await page.emulateMediaFeatures([{ name: "prefers-color-scheme", value: "dark" }]);
     await page.goto(url, { waitUntil: "networkidle0" });
+    const opened = await page.evaluate(() => document.documentElement.dataset.theme);
+    if (opened !== "light") problems.push(`[${run.name}] opened in ${opened}, not light`);
+    if (run.theme === "dark") await page.click(".toggle");
     await wait(3000); // the hero's entrance and the shapes falling
     const theme = await page.evaluate(() => document.documentElement.dataset.theme);
     if (theme !== run.theme) problems.push(`[${run.name}] theme is ${theme}`);
@@ -99,15 +102,17 @@ try {
     await page.close();
   }
 
-  // the theme switch button: light -> dark, and the choice is remembered
+  // the theme switch button: light -> dark for this visit, and the next visit opens in light again
   const page = await browser.newPage();
   await page.setViewport({ width: 1440, height: 900 });
-  await page.evaluateOnNewDocument(() => localStorage.setItem("theme", "light"));
   await page.goto(url, { waitUntil: "networkidle0" });
   await page.click(".toggle");
   await wait(1200);
-  const after = await page.evaluate(() => [document.documentElement.dataset.theme, localStorage.getItem("theme")]);
-  if (after.join() !== "dark,dark") problems.push(`theme switch: ${after.join()}`);
+  const switched = await page.evaluate(() => document.documentElement.dataset.theme);
+  if (switched !== "dark") problems.push(`theme switch: ${switched}`);
+  await page.reload({ waitUntil: "networkidle0" });
+  const reopened = await page.evaluate(() => document.documentElement.dataset.theme);
+  if (reopened !== "light") problems.push(`after a reload the site opened in ${reopened}, not light`);
   await page.close();
 
   // visitors who turned animations off: everything visible straight away
