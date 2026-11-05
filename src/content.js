@@ -37,12 +37,12 @@ export const showPhotoLabels = false;
 export const photos = {
   portrait: { src: "photos/portrait-2.jpg", alt: "Pavan Sai Kushana", label: "Your portrait", hint: "upright, 4:5" },
   debate: { src: "photos/debate-team.jpg", alt: "The Debate Arena project team", label: "Debate Arena", hint: "landscape" },
-  // the collage's big rectangle (the slot is still called weimar; the photo is from a trip to Budapest)
-  weimar: { src: "photos/budapest-heroes-square.jpg", alt: "Me at Heroes' Square in Budapest", label: "Weimar", hint: "landscape, 4:3" },
+  // weimar, campus and desk are only used by the Moments collage (hidden for now); their photos were removed 5 Nov
+  weimar: { src: null, alt: "", label: "Weimar", hint: "landscape, 4:3" },
   moving: { src: "photos/bauhaus-main-building.jpg", alt: "The main building of Bauhaus-Universität Weimar", label: "Moving to Germany", hint: "landscape" },
-  campus: { src: "photos/campus.jpg", alt: "The main building of Bauhaus-Universität Weimar", label: "Campus", hint: "square" },
+  campus: { src: null, alt: "", label: "Campus", hint: "square" },
   hackathon: { src: "photos/lifeguard-home.jpg", alt: "The Lifeguard-Agent home page", label: "Hackathon", hint: "landscape, 3:2" },
-  desk: { src: "photos/budapest.jpg", alt: "Me on a trip to Budapest", label: "Anything you like", hint: "upright, 3:4" },
+  desk: { src: null, alt: "", label: "Anything you like", hint: "upright, 3:4" },
 };
 
 export const hero = {
@@ -50,7 +50,7 @@ export const hero = {
   status: "Open to working student roles and internships",
   intro:
     "Master's student in Computer Science for Digital Media at Bauhaus-Universität Weimar. I work on cloud " +
-    "infrastructure, DevOps and AI systems, with hands-on AWS experience from an IT operations internship and " +
+    "infrastructure, DevOps and AI systems, with hands-on AWS experience from an IT Operations internship and " +
     "projects I build, deploy and test end to end.",
   playHint: "Drag the shapes",
   playHintTouch: "Tap to shake the shapes",
@@ -74,7 +74,7 @@ export const shapes = {
 export const about = {
   title: "A bit about me",
   paragraphs: [
-    "I studied Information Technology in India and did an IT operations internship at Sears, working on AWS " +
+    "I studied Information Technology in India and did an IT Operations internship at Sears, working on AWS " +
       "infrastructure. That's where I got into cloud. Now I'm doing my Master's at Bauhaus-Universität Weimar.",
     "Alongside my studies, I'm preparing for cloud and DevOps engineering roles. I'm learning Docker, Kubernetes " +
       "and CI/CD, and working towards the AWS Solutions Architect Associate certification. My latest project, " +
@@ -103,7 +103,7 @@ export const distanceKm = 6900; // great-circle distance between the two cities,
 export const chapters = [
   { year: "2020", place: "india", title: "B.Tech in Information Technology",
     text: "The CS basics: data structures, operating systems, databases and Java. My final project simulated a network of data centers in Python." },
-  { year: "2022", place: "india", title: "IT operations intern at Sears",
+  { year: "2022", place: "india", title: "IT Operations intern at Sears",
     text: "I worked on AWS infrastructure operations. That's where I got into cloud." },
   { year: "2025", place: "germany", title: "Moving to Germany",
     text: "I started my Master's in Computer Science for Digital Media at Bauhaus-Universität Weimar, about 6,900 km from home.",
@@ -250,7 +250,7 @@ export const interview = [
   { q: "How many hours can you work?",
     a: "20 hours a week during the semester and full time in the semester breaks. I hold a German student residence permit." },
   { q: "Why cloud and DevOps?",
-    a: "During my IT operations internship at Sears I worked on AWS. That's where I got into cloud. Now I'm learning Docker, Kubernetes and CI/CD properly, and I'm preparing for the AWS Solutions Architect Associate exam in December." },
+    a: "During my IT Operations internship at Sears I worked on AWS. That's where I got into cloud. Now I'm learning Docker, Kubernetes and CI/CD properly, and I'm preparing for the AWS Solutions Architect Associate exam in December." },
   { q: "What is Lifeguard-Agent?",
     a: "An AI on-call engineer I built solo for the Nebius x NVIDIA Global AI Hackathon. Three NVIDIA Nemotron models find out why a server broke and suggest fixes, and nothing changes until a human approves. I tested it on 100 runs, and it also fixed three real faults on a Nebius VM." },
   { q: "What did you do in the Debate Arena?",

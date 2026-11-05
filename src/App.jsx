@@ -16,7 +16,8 @@ import Journey from "./components/Journey";
 import Exhibition from "./components/Exhibition";
 import Skills from "./components/Skills";
 import Interview from "./components/Interview";
-import Moments from "./components/Moments";
+// Moments (the photo collage) is hidden for now; put this line and <Moments /> below back to show it again.
+// import Moments from "./components/Moments";
 import Contact from "./components/Contact";
 import Footer from "./components/Footer";
 import Cursor from "./components/Cursor";
@@ -65,7 +66,7 @@ export default function App() {
         <Exhibition reduced={reduced} />
         <Skills reduced={reduced} />
         <Interview reduced={reduced} />
-        <Moments reduced={reduced} />
+        {/* <Moments reduced={reduced} /> hidden for now, see the import above */}
         <Contact />
       </main>
       <Footer />

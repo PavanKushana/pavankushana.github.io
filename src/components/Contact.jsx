@@ -37,7 +37,7 @@ export default function Contact() {
     <section id="contact" className="section contact">
       <div className="container">
         <p className="contact__label mono" data-reveal>
-          07 / Contact
+          06 / Contact
         </p>
         <h2 className="contact__title" aria-label={contact.title} data-reveal>
           <span aria-hidden="true">
