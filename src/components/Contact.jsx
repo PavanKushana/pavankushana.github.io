@@ -1,25 +1,27 @@
 // Contact.jsx: the end. "Say hello" in huge letters, where the "o" is a blue circle; what I'm looking for; the
 // time in Weimar right now (so you know if it's day or night here); my email with a copy button; my links.
 import { useEffect, useState } from "react";
-import { contact, person } from "../content";
+import { fill, useContent } from "../hooks/language";
 import { CheckIcon, CopyIcon, DownloadIcon, GitHubIcon, LinkedInIcon } from "./Icons";
 import "./Contact.css";
 
-/** The time in Weimar, like "14:05", updated every 20 seconds. */
-function useWeimarTime() {
+/** The time in Weimar, like "14:05", updated every 20 seconds. timeZone: Weimar's; locale: how to write it. */
+function useWeimarTime(timeZone, locale) {
   const format = () =>
-    new Intl.DateTimeFormat("en-GB", { timeZone: person.timeZone, hour: "2-digit", minute: "2-digit" }).format(new Date());
+    new Intl.DateTimeFormat(locale, { timeZone, hour: "2-digit", minute: "2-digit" }).format(new Date());
   const [time, setTime] = useState(format);
   useEffect(() => {
+    setTime(format()); // at once when the language changes, not only at the next tick
     const timer = setInterval(() => setTime(format()), 20000);
     return () => clearInterval(timer);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [locale]);
   return time;
 }
 
 export default function Contact() {
-  const time = useWeimarTime();
+  const { contact, person, ui } = useContent();
+  const time = useWeimarTime(person.timeZone, ui.timeLocale);
   const [copied, setCopied] = useState(false);
 
   /** Copies my email address and says so for two seconds (opens the mail app if copying isn't allowed). */
@@ -37,11 +39,11 @@ export default function Contact() {
     <section id="contact" className="section contact">
       <div className="container">
         <p className="contact__label mono" data-reveal>
-          06 / Contact
+          {ui.contact.label}
         </p>
         <h2 className="contact__title" aria-label={contact.title} data-reveal>
           <span aria-hidden="true">
-            Say hell<span className="contact__o" />
+            {ui.contact.big}<span className="contact__o" />
           </span>
         </h2>
 
@@ -52,7 +54,7 @@ export default function Contact() {
               <span className="pulse" aria-hidden="true" /> {contact.availability}
             </p>
             <p className="contact__time mono">
-              It's {time} in Weimar right now
+              {fill(ui.contact.time, { time })}
             </p>
           </div>
 
@@ -62,7 +64,7 @@ export default function Contact() {
                 {person.email}
               </a>
               <button type="button" className="btn btn--red btn--small" onClick={copy} aria-live="polite">
-                {copied ? <CheckIcon /> : <CopyIcon />} {copied ? "Copied" : "Copy"}
+                {copied ? <CheckIcon /> : <CopyIcon />} {copied ? ui.contact.copied : ui.contact.copy}
               </button>
             </div>
             <div className="contact__links">
@@ -72,8 +74,8 @@ export default function Contact() {
               <a className="btn btn--small" href={person.github} target="_blank" rel="noreferrer">
                 <GitHubIcon /> GitHub
               </a>
-              <a className="btn btn--small btn--solid" href={person.cv} target="_blank" rel="noreferrer">
-                <DownloadIcon /> CV
+              <a className="btn btn--small btn--solid" href={person.cv} target="_blank" rel="noreferrer" title={ui.nav.cvTitle || undefined}>
+                <DownloadIcon /> {ui.nav.cv}
               </a>
             </div>
           </div>

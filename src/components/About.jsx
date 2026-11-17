@@ -2,7 +2,7 @@
 // per field of my work) that draw themselves, and the four habits I work by.
 import Head from "./Head";
 import Photo from "./Photo";
-import { about, shapes } from "../content";
+import { useContent } from "../hooks/language";
 import "./About.css";
 
 /** A big shape that first draws its outline, then fills (when its card scrolls in; see .is-in in App.jsx). */
@@ -18,16 +18,19 @@ function DrawnShape({ kind }) {
 }
 
 export default function About() {
+  const { about, shapes, ui } = useContent();
+  // The lists use their position as React key, not their text: when the language changes, the same elements stay
+  // and only their words change, so the fade-in animation (App.jsx) doesn't lose them.
   return (
     <section id="about" className="section about">
       <div className="container">
-        <Head num={1} label="About" title={about.title} />
+        <Head num={1} label={ui.about.label} title={about.title} />
 
         <div className="about__intro">
           <Photo slot="portrait" shape="arch" accent={0} className="about__portrait" />
           <div className="about__text">
-            {about.paragraphs.map((paragraph) => (
-              <p key={paragraph.slice(0, 24)} data-reveal>
+            {about.paragraphs.map((paragraph, i) => (
+              <p key={i} data-reveal>
                 {paragraph}
               </p>
             ))}
@@ -49,11 +52,11 @@ export default function About() {
 
         <div className="habits">
           <h3 className="habits__title" data-reveal>
-            How I work
+            {ui.about.habitsTitle}
           </h3>
           <ol className="habits__list">
             {about.habits.map(({ title, text }, i) => (
-              <li key={title} data-reveal>
+              <li key={i} data-reveal>
                 <span className="habits__num">{String(i + 1).padStart(2, "0")}</span>
                 <h4>{title}</h4>
                 <p>{text}</p>

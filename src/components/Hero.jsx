@@ -10,7 +10,7 @@ import VariableProximity from "./reactbits/VariableProximity/VariableProximity";
 import "./Playground.css";
 const Playground = lazy(() => import("./Playground"));
 import { FieldShape } from "./Shape";
-import { hero, person } from "../content";
+import { useContent } from "../hooks/language";
 import { isTouch, scrollToId } from "../hooks/motion";
 import { ArrowRightIcon, DownloadIcon } from "./Icons";
 import "./Hero.css";
@@ -19,6 +19,7 @@ import "./Hero.css";
 const NAME_LINES = ["Pavan Sai", "Kushana"];
 
 export default function Hero({ reduced, theme }) {
+  const { hero, person, ui } = useContent();
   const root = useRef(null);
 
   // the entrance: the name's lines slide up out of a mask, then the rest comes in one part after another
@@ -41,7 +42,7 @@ export default function Hero({ reduced, theme }) {
   };
 
   return (
-    <section id="top" className="hero" ref={root} aria-label="Introduction">
+    <section id="top" className="hero" ref={root} aria-label={ui.hero.label}>
       <div className="container hero__grid">
         <div className="hero__text">
           <p className="hero__eyebrow mono hero__in">{hero.eyebrow}</p>
@@ -59,21 +60,21 @@ export default function Hero({ reduced, theme }) {
               </span>
             ))}
           </h1>
-          <p className="hero__fields" aria-label="Cloud, DevOps and AI">
-            <span><FieldShape field="cloud" size={30} /> Cloud</span>
-            <span><FieldShape field="devops" size={30} /> DevOps</span>
-            <span><FieldShape field="ai" size={30} /> AI</span>
+          <p className="hero__fields" aria-label={ui.hero.fieldsLabel}>
+            <span><FieldShape field="cloud" size={30} /> {ui.fieldNames.cloud}</span>
+            <span><FieldShape field="devops" size={30} /> {ui.fieldNames.devops}</span>
+            <span><FieldShape field="ai" size={30} /> {ui.fieldNames.ai}</span>
           </p>
           <p className="hero__intro hero__in">{hero.intro}</p>
           <div className="hero__ctas hero__in">
             <a className="btn btn--red" href="#work" onClick={(event) => go(event, "work")}>
-              See my work <ArrowRightIcon />
+              {ui.hero.seeWork} <ArrowRightIcon />
             </a>
             <a className="btn" href="#interview" onClick={(event) => go(event, "interview")}>
-              Interview me
+              {ui.hero.interviewMe}
             </a>
-            <a className="link hero__cv" href={person.cv} target="_blank" rel="noreferrer">
-              <DownloadIcon /> CV
+            <a className="link hero__cv" href={person.cv} target="_blank" rel="noreferrer" title={ui.nav.cvTitle || undefined}>
+              <DownloadIcon /> {ui.nav.cv}
             </a>
           </div>
           <p className="pill hero__in">

@@ -3,9 +3,11 @@
 // circle over the physics frame. Only with a mouse (phones have no cursor), and the normal cursor stays.
 import { useEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
+import { useContent } from "../hooks/language";
 import "./Cursor.css";
 
 export default function Cursor() {
+  const { ui } = useContent();
   const follower = useRef(null);
   const [kind, setKind] = useState("none");
 
@@ -36,7 +38,7 @@ export default function Cursor() {
   return (
     <div className={`cursor cursor--${kind}`} ref={follower} aria-hidden="true">
       <span className="cursor__shape" />
-      <span className="cursor__label">drag</span>
+      <span className="cursor__label">{ui.cursorDrag}</span>
     </div>
   );
 }

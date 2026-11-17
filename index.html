@@ -16,13 +16,26 @@
 
     <!-- runs before the first paint:
          1. the site always opens in the light theme (Pavan's choice); the switch in the menu still works for the visit;
-         2. parts that fade in on scroll start hidden only when animations will run -->
+         2. parts that fade in on scroll start hidden only when animations will run;
+         3. the language, by the same rule as src/hooks/language.js (?lang= in the address, else the first German
+            or English language of the browser, else English), so the page says it from the start -->
     <script>
       (function () {
         document.documentElement.dataset.theme = "light";
         if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
           document.documentElement.classList.add("js-motion");
         }
+        var lang = new URLSearchParams(window.location.search).get("lang");
+        if (lang !== "de" && lang !== "en") {
+          lang = "en";
+          var codes = navigator.languages || [navigator.language || ""];
+          for (var i = 0; i < codes.length; i++) {
+            var name = String(codes[i]).toLowerCase();
+            if (name === "de" || name.indexOf("de-") === 0) { lang = "de"; break; }
+            if (name === "en" || name.indexOf("en-") === 0) break;
+          }
+        }
+        document.documentElement.lang = lang;
       })();
     </script>
 

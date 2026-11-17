@@ -1,4 +1,4 @@
-/* Nav.css: the top bar, the theme switch and the phone menu. */
+/* Nav.css: the top bar, the language switch, the theme switch and the phone menu. */
 .nav {
   position: fixed;
   inset: 0 0 auto;
@@ -31,6 +31,7 @@
 }
 .nav__brand {
   display: flex;
+  flex: none; /* the name never squeezes onto two lines; the links make room instead */
   align-items: center;
   gap: 12px;
 }
@@ -156,20 +157,65 @@
   cy: 11px;
 }
 
-/* the phone menu */
+/* the language switch: EN and DE in one ink frame, the language that's on filled in ink (LanguageToggle.jsx) */
+.lang {
+  display: inline-flex;
+  flex: none;
+  height: 44px;
+  border: 2px solid var(--ink);
+}
+.lang button {
+  min-width: 36px;
+  padding: 0 6px;
+  border: 0;
+  background: transparent;
+  color: var(--ink);
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  cursor: pointer;
+  transition: background-color 0.25s, color 0.25s;
+}
+.lang button + button {
+  border-left: 2px solid var(--ink);
+}
+.lang button:hover {
+  background: var(--bg-2);
+}
+.lang button[aria-pressed="true"] {
+  background: var(--ink);
+  color: var(--bg);
+}
+/* in the phone menu: bigger, with the full names */
+.lang--big {
+  height: 52px;
+}
+.lang--big button {
+  min-width: 0;
+  padding: 0 20px;
+  font-size: 15px;
+  letter-spacing: 0.02em;
+}
+
+/* the phone menu: the whole screen under the bar. It sits in <body>, not in the bar (see Nav.jsx), so "fixed"
+   means the screen; z-index 49 puts it over the page and just under the bar (50). overflow-y: a short phone in
+   landscape can still scroll to the CV and language buttons. */
 .nav__sheet {
   position: fixed;
   inset: 74px 0 0;
+  z-index: 49;
   display: flex;
   flex-direction: column;
   gap: 2px;
   padding: 24px var(--gutter);
+  overflow-y: auto;
   background: var(--bg);
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.3s;
 }
-.nav--open .nav__sheet {
+.nav__sheet.is-open {
   opacity: 1;
   pointer-events: auto;
 }
@@ -179,7 +225,7 @@
   transition: transform 0.5s var(--ease-out), opacity 0.5s;
   transition-delay: calc(var(--i) * 45ms);
 }
-.nav--open .nav__sheet a {
+.nav__sheet.is-open a {
   opacity: 1;
   transform: none;
 }
@@ -197,11 +243,62 @@
   align-self: flex-start;
   margin-top: 28px;
 }
+/* the language switch in the menu: only on small phones, where the bar has no room for it */
+.nav__sheet-lang {
+  display: none;
+  margin-top: 18px;
+  opacity: 0;
+  transform: translateY(18px);
+  transition: transform 0.5s var(--ease-out), opacity 0.5s;
+  transition-delay: calc(var(--i) * 45ms);
+}
+.nav__sheet.is-open .nav__sheet-lang {
+  opacity: 1;
+  transform: none;
+}
+@media (max-width: 560px) {
+  .nav__lang {
+    display: none;
+  }
+  .nav__sheet-lang {
+    display: block;
+  }
+}
 
 @media (max-width: 1040px) {
+  /* a little tighter, so the links, the language switch, the theme switch and the CV fit in one row */
+  .nav__inner {
+    gap: 14px;
+  }
+  .nav__end {
+    gap: 8px;
+  }
   .nav__links a {
+    padding: 8px 7px;
+    font-size: 15px;
+  }
+}
+/* German section names are longer ("Kenntnisse", "Werdegang"): a bit smaller up to 1180px, and from 901 to
+   1040px they go into the menu like on a tablet, because one row can't hold them (English keeps its links) */
+@media (max-width: 1180px) {
+  :root[lang="de"] .nav__links a {
     padding: 8px 9px;
     font-size: 15.5px;
+  }
+}
+@media (min-width: 901px) and (max-width: 1040px) {
+  :root[lang="de"] .nav__links,
+  :root[lang="de"] .nav__cv {
+    display: none;
+  }
+  :root[lang="de"] .nav__end {
+    margin-left: auto;
+  }
+  :root[lang="de"] .nav__menu {
+    display: grid;
+  }
+  :root[lang="de"] .nav__sheet {
+    display: flex;
   }
 }
 @media (max-width: 900px) {

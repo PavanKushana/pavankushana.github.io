@@ -19,11 +19,19 @@ cloud, DevOps and AI. Light theme (paper) and dark theme (night).
 - **Moments:** a collage of photo frames
 - **Contact:** with the time in Weimar right now
 - Light and dark theme: the switch grows as a circle across the page, and the choice is remembered
+- **English and German:** a visitor whose browser is set to German gets the German version, everyone else
+  English. The EN/DE switch in the top bar (in the menu on small phones) changes every word on the page without
+  a reload, and the address keeps the choice (`?lang=de` or `?lang=en`), so a reload or a shared link stays in
+  that language: [pavankushana.com/?lang=de](https://pavankushana.com/?lang=de) opens the German version
+  straight away. My own German is A2, so the German version was translated with AI help.
 - The cursor turns into the shape of whatever it's over
 
 ## Change the text and add photos
 
-Every word, link and photo slot is in [`src/content.js`](src/content.js). Photos go in `public/photos/`; the
+Every word, link and photo slot is in [`src/content.js`](src/content.js), and the German version of every word
+is in [`src/content.de.js`](src/content.de.js), laid out the same way. Change a text in one, change it in the other
+too; `npm run check` lists anything that no longer matches. How the switch works:
+[`src/hooks/language.js`](src/hooks/language.js). Photos go in `public/photos/`; the
 [README there](public/photos/README.txt) says which frame wants which picture. Until a photo is set, its frame
 shows a small composition of shapes and a label saying what goes there. Set `showPhotoLabels` to `false` to hide
 the labels.
@@ -42,10 +50,13 @@ npm run build      # makes the finished site in dist/
 npm run check      # tests dist/ in Chrome
 ```
 
-`npm run check` opens the site in both themes at laptop and phone size, scrolls through it so every animation
-runs, tries the theme switch, the skill filter, the interview and a case study, checks that nothing is wider
-than a phone and that everything shows with "reduce motion" on, saves screenshots in `screenshots/`, and fails
-if anything logs an error. It uses the Chrome installed on this laptop.
+`npm run check` first compares `content.js` with `content.de.js` (same layout, same links, no long dashes), then
+opens the site in both themes and both languages at laptop and phone size, scrolls through it so every
+animation runs, tries the theme switch, the language switch, the skill filter, the interview and a case study,
+checks that a German browser gets German, that nothing is wider than a phone, that the top bar fits at every
+width, that everything shows with
+"reduce motion" on and that no English is left on the German page, saves screenshots in `screenshots/`, and
+fails if anything logs an error. It uses the Chrome installed on this laptop.
 
 ## Publish
 

@@ -7,6 +7,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 import Head from "./Head";
 import Photo from "./Photo";
+import { useContent } from "../hooks/language";
 import "./Moments.css";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -21,6 +22,7 @@ const FRAMES = [
 ];
 
 export default function Moments({ reduced }) {
+  const { ui } = useContent();
   const root = useRef(null);
 
   useGSAP(
@@ -40,7 +42,7 @@ export default function Moments({ reduced }) {
   return (
     <section id="moments" className="section moments" ref={root}>
       <div className="container">
-        <Head num={6} label="Moments" title="India, Germany and in between" />
+        <Head num={6} label={ui.moments.label} title={ui.moments.title} />
         <div className="moments__grid">
           {FRAMES.map(({ slot, shape, speed }, i) => (
             <div key={slot} className={`moment moment--${i + 1}`} data-speed={speed}>

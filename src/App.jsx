@@ -1,4 +1,5 @@
-// App.jsx: the page from top to bottom. Each section is its own component; all the words come from content.js.
+// App.jsx: the page from top to bottom. Each section is its own component; all the words come from content.js
+// (or content.de.js in German, see hooks/language.js).
 // This file also holds the theme (light/dark) and runs the one animation every section shares: parts marked
 // data-reveal fade up the first time they scroll into view, and get the class "is-in" (headings draw their
 // rule, shapes draw their outline).
@@ -8,6 +9,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 import { useReducedMotion, useSmoothScroll } from "./hooks/motion";
 import { useTheme } from "./hooks/theme";
+import { useContent } from "./hooks/language";
 import Nav from "./components/Nav";
 import Hero from "./components/Hero";
 import Marquee from "./components/Marquee";
@@ -27,6 +29,7 @@ gsap.registerPlugin(useGSAP, ScrollTrigger);
 export default function App() {
   const reduced = useReducedMotion();
   const { theme, toggle } = useTheme();
+  const { ui } = useContent();
   const root = useRef(null);
   useSmoothScroll(!reduced);
 
@@ -54,7 +57,7 @@ export default function App() {
   return (
     <div ref={root}>
       <a className="skip-link" href="#main">
-        Skip to content
+        {ui.skipLink}
       </a>
       {!reduced && <Cursor />}
       <Nav theme={theme} onToggleTheme={toggle} />

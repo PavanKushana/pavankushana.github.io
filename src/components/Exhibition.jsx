@@ -9,13 +9,14 @@ import Head from "./Head";
 import PosterArt from "./PosterArt";
 import CaseStudy from "./CaseStudy";
 import { FieldShape } from "./Shape";
-import { nextUp, projects } from "../content";
+import { useContent } from "../hooks/language";
 import { ArrowRightIcon } from "./Icons";
 import "./Exhibition.css";
 
 gsap.registerPlugin(ScrollTrigger);
 
 export default function Exhibition({ reduced }) {
+  const { nextUp, projects, ui } = useContent();
   const root = useRef(null);
   const [open, setOpen] = useState(null); // the id of the project whose case study is open
 
@@ -48,16 +49,16 @@ export default function Exhibition({ reduced }) {
   return (
     <section id="work" className="section expo" ref={root}>
       <div className="container">
-        <Head num={3} label="Work" title="An exhibition of my work" />
+        <Head num={3} label={ui.work.label} title={ui.work.title} />
       </div>
 
       <div className="expo__stage" data-lenis-prevent-horizontal>
         <div className="expo__track">
           <div className="expo__intro">
-            <p>Three projects, from my B.Tech to a hackathon. Each poster opens the whole story.</p>
+            <p>{ui.work.intro}</p>
             <p className="expo__hint mono" aria-hidden="true">
-              <span className="expo__hint-scroll">Keep scrolling</span>
-              <span className="expo__hint-swipe">Swipe</span> <ArrowRightIcon />
+              <span className="expo__hint-scroll">{ui.work.keepScrolling}</span>
+              <span className="expo__hint-swipe">{ui.work.swipe}</span> <ArrowRightIcon />
             </p>
           </div>
 
@@ -77,7 +78,7 @@ export default function Exhibition({ reduced }) {
                 <h3 className="poster__title">{title}</h3>
                 <p className="poster__tagline">{tagline}</p>
                 <button type="button" className="btn btn--small poster__open" onClick={() => setOpen(id)}>
-                  Open the case study <ArrowRightIcon />
+                  {ui.work.open} <ArrowRightIcon />
                 </button>
               </div>
             </article>
@@ -89,11 +90,11 @@ export default function Exhibition({ reduced }) {
               <PosterArt id="next" />
             </div>
             <div className="poster__body">
-              <p className="poster__meta mono">Now</p>
+              <p className="poster__meta mono">{ui.work.now}</p>
               <h3 className="poster__title">{nextUp.title}</h3>
               <ul className="poster__list">
-                {nextUp.items.map((item) => (
-                  <li key={item}>{item}</li>
+                {nextUp.items.map((item, i) => (
+                  <li key={i}>{item}</li>
                 ))}
               </ul>
             </div>

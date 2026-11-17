@@ -1,12 +1,13 @@
 // Shape.jsx: the Bauhaus shapes as small SVGs. Each field of my work has one (Kandinsky's pairs):
 // cloud = blue circle, devops = red square, ai = yellow triangle; code = black half circle, tools = black bar.
 
+// (the fields' names, in English and German, are ui.fieldNames in content.js and content.de.js)
 export const FIELD = {
-  cloud: { shape: "circle", color: "var(--blue)", label: "Cloud" },
-  devops: { shape: "square", color: "var(--red)", label: "DevOps" },
-  ai: { shape: "triangle", color: "var(--yellow)", label: "AI" },
-  code: { shape: "half", color: "var(--ink)", label: "Code" },
-  tools: { shape: "bar", color: "var(--ink)", label: "Tools" },
+  cloud: { shape: "circle", color: "var(--blue)" },
+  devops: { shape: "square", color: "var(--red)" },
+  ai: { shape: "triangle", color: "var(--yellow)" },
+  code: { shape: "half", color: "var(--ink)" },
+  tools: { shape: "bar", color: "var(--ink)" },
 };
 
 const PATHS = {

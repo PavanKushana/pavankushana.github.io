@@ -1,20 +1,22 @@
 // Playground.jsx: the hero's toy. Bauhaus shapes fall into a frame with real physics (matter-js). With a mouse
 // you can grab and throw them; on a phone a tap shakes them. With reduced motion they simply lie still.
-// The three big ones carry my fields: the blue circle "cloud", the red square "devops", the yellow triangle "ai".
+// The three big ones carry my fields: the blue circle "cloud", the red square "devops", the yellow triangle "ai"
+// (in German "ki"; the words come from ui.hero.shapeWords in content.js / content.de.js).
 import { useEffect, useRef } from "react";
 import Matter from "matter-js";
 import { themeColor } from "../hooks/theme";
 import { isTouch } from "../hooks/motion";
-import { hero } from "../content";
+import { useContent } from "../hooks/language";
 import "./Playground.css";
 
 const { Engine, Bodies, Body, Composite, Mouse, MouseConstraint, Query } = Matter;
 
-// the shapes: kind, size as a share of the frame's width, colour (a CSS variable) and an optional word on it
+// the shapes: kind, size as a share of the frame's width, colour (a CSS variable) and, for the big three, which
+// field's word is written on it
 const PIECES = [
-  { kind: "circle", size: 0.36, color: "--blue", label: "cloud" },
-  { kind: "square", size: 0.3, color: "--red", label: "devops" },
-  { kind: "triangle", size: 0.4, color: "--yellow", label: "ai" },
+  { kind: "circle", size: 0.36, color: "--blue", field: "cloud" },
+  { kind: "square", size: 0.3, color: "--red", field: "devops" },
+  { kind: "triangle", size: 0.4, color: "--yellow", field: "ai" },
   { kind: "bar", size: 0.62, color: "--ink" },
   { kind: "half", size: 0.32, color: "--ink" },
   { kind: "circle", size: 0.14, color: "--red" },
@@ -25,10 +27,10 @@ const PIECES = [
 ];
 
 /** Makes one physics body for a piece, dropped at (x, y), sized to a frame of width w. */
-function makeBody({ kind, size, color, label }, x, y, w) {
+function makeBody({ kind, size, color, field }, x, y, w) {
   const s = size * w;
   const options = { restitution: 0.25, friction: 0.35, density: 0.0015, angle: Math.random() * Math.PI,
-    plugin: { color, label } };
+    plugin: { color, field } };
   if (kind === "circle") return Bodies.circle(x, y, s / 2, options);
   if (kind === "square") return Bodies.rectangle(x, y, s, s, options);
   if (kind === "bar") return Bodies.rectangle(x, y, s, s * 0.16, options);
@@ -41,8 +43,9 @@ function makeBody({ kind, size, color, label }, x, y, w) {
   return Bodies.fromVertices(x, y, [points], options);
 }
 
-/** Paints every moving body on the canvas, in the current theme's colours, with the words on the big three. */
-function draw(ctx, bodies, colors) {
+/** Paints every moving body on the canvas, in the current theme's colours, with the words on the big three.
+    words: the word for each field in the current language ({ cloud, devops, ai }). */
+function draw(ctx, bodies, colors, words) {
   const { width, height } = ctx.canvas;
   ctx.clearRect(0, 0, width, height);
   for (const body of bodies) {
@@ -57,7 +60,7 @@ function draw(ctx, bodies, colors) {
       ctx.closePath();
     }
     ctx.fill();
-    if (body.plugin.label) {
+    if (body.plugin.field) {
       ctx.save();
       ctx.translate(body.position.x, body.position.y);
       ctx.rotate(body.angle);
@@ -65,7 +68,7 @@ function draw(ctx, bodies, colors) {
       ctx.font = "500 14px 'DM Mono', monospace";
       ctx.textAlign = "center";
       ctx.textBaseline = "middle";
-      ctx.fillText(body.plugin.label, 0, body.plugin.color === "--yellow" ? 8 : 0); // a triangle's middle sits low
+      ctx.fillText(words[body.plugin.field], 0, body.plugin.color === "--yellow" ? 8 : 0); // a triangle's middle sits low
       ctx.restore();
     }
   }
@@ -73,10 +76,13 @@ function draw(ctx, bodies, colors) {
 
 /** reduced: no motion, the shapes are laid out still. theme: redraws in the new colours when it changes. */
 export default function Playground({ reduced, theme }) {
+  const { hero, ui } = useContent();
   const frame = useRef(null);
   const canvas = useRef(null);
   const world = useRef(null); // { engine, bodies } of the running toy, for the theme redraw and the shake button
   const colors = useRef(null); // the theme's colours, read once per theme instead of every frame
+  const words = useRef(ui.hero.shapeWords); // the words on the big three, in the current language
+  words.current = ui.hero.shapeWords;
 
   useEffect(() => {
     const box = frame.current;
@@ -142,7 +148,7 @@ export default function Playground({ reduced, theme }) {
     const loop = () => {
       const { engine, bodies } = world.current;
       Engine.update(engine, 1000 / 60);
-      draw(ctx, bodies, colors.current);
+      draw(ctx, bodies, colors.current, words.current);
       raf = visible && !document.hidden ? requestAnimationFrame(loop) : 0;
     };
     const start = () => {
@@ -151,7 +157,7 @@ export default function Playground({ reduced, theme }) {
 
     colors.current = readColors();
     build();
-    if (reduced) draw(ctx, world.current.bodies, colors.current);
+    if (reduced) draw(ctx, world.current.bodies, colors.current, words.current);
     else start();
 
     const seen = new IntersectionObserver(([entry]) => {
@@ -165,7 +171,7 @@ export default function Playground({ reduced, theme }) {
     const resized = new ResizeObserver(() => {
       if (Math.abs(box.clientWidth - width) < 40) return;
       build();
-      if (reduced) draw(ctx, world.current.bodies, colors.current);
+      if (reduced) draw(ctx, world.current.bodies, colors.current, words.current);
     });
     resized.observe(box);
 
@@ -178,11 +184,12 @@ export default function Playground({ reduced, theme }) {
     };
   }, [reduced]);
 
-  // the theme changed: new colours (the running toy uses them on its next frame; a still one paints once more)
+  // the theme or the language changed: new colours or words (the running toy uses them on its next frame; a
+  // still one paints once more)
   useEffect(() => {
     colors.current = readColors();
-    if (reduced && world.current) draw(canvas.current.getContext("2d"), world.current.bodies, colors.current);
-  }, [theme, reduced]);
+    if (reduced && world.current) draw(canvas.current.getContext("2d"), world.current.bodies, colors.current, words.current);
+  }, [theme, reduced, ui]);
 
   /** Throws every shape up a little: the phone's way to play, and a button for everyone else. */
   const shake = () => {
@@ -201,7 +208,7 @@ export default function Playground({ reduced, theme }) {
       </p>
       {!reduced && (
         <button type="button" className="play__shake mono" onClick={shake}>
-          Shake
+          {ui.hero.shake}
         </button>
       )}
     </div>

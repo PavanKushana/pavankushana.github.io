@@ -1,10 +1,11 @@
 // Footer.jsx: the last line: the three shapes, copyright, how it was built, back to the top.
-import { person } from "../content";
+import { useContent } from "../hooks/language";
 import { scrollToId } from "../hooks/motion";
 import { Shape } from "./Shape";
 import "./Footer.css";
 
 export default function Footer() {
+  const { person, ui } = useContent();
   return (
     <footer className="footer">
       <div className="container footer__inner">
@@ -17,10 +18,10 @@ export default function Footer() {
           © {new Date().getFullYear()} {person.name}
         </p>
         <p className="footer__built">
-          Built with React, GSAP, Lenis, matter-js and d3-geo, with help from Claude Code. Effects from React Bits.
+          {ui.footer.built}
         </p>
         <button type="button" className="footer__top" onClick={() => scrollToId("top")}>
-          Back to top ↑
+          {ui.footer.top}
         </button>
       </div>
     </footer>

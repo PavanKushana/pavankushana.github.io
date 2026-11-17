@@ -1,4 +1,6 @@
 // content.js: every word, link and photo slot on the site, in one place. To change the site, change it here.
+// The German version of every word is in content.de.js, laid out the same way: change a text here, change it
+// there too. `npm run check` lists anything that no longer matches (a new skill, a changed link...).
 //
 // Rules for this file (Pavan's):
 // - Only true things. Sources: job-applications/profile/facts.md, the GitHub profile README and the
@@ -283,4 +285,102 @@ export const contact = {
     "I'm looking for a working student role or an internship in cloud, DevOps, Linux or Python automation, " +
     "anywhere in Germany. I can start right away, and email is the quickest way to reach me.",
   availability: "20 hours a week during the semester, full time in the breaks",
+};
+
+// The page's own words: buttons, small labels and what screen readers say. They used to sit inside the
+// components; now they're here, so the German version (content.de.js) can have its own. {name} and the like
+// are filled in by the page (fill() in hooks/language.js).
+export const ui = {
+  // what the browser tab and search results show (index.html has the same English words for the first load)
+  pageTitle: "Pavan Sai Kushana · Cloud, DevOps and AI",
+  pageDescription:
+    "Pavan Sai Kushana, Master's student in Computer Science for Digital Media at Bauhaus-Universität Weimar. " +
+    "Cloud, Linux, DevOps and AI agents. Open to working student roles and internships in Germany.",
+  // for formatting numbers and the time ("6,900 km", "14:05")
+  numberLocale: "en-US",
+  timeLocale: "en-GB",
+  skipLink: "Skip to content",
+  nav: {
+    backToTop: "Back to the top",
+    sections: "Sections",
+    openMenu: "Open the menu",
+    closeMenu: "Close the menu",
+    cv: "CV",
+    cvTitle: "", // a tooltip for the CV buttons; empty = none (the German one says the CV is in English)
+    downloadCv: "Download my CV",
+    toLight: "Switch to the light theme",
+    toDark: "Switch to the dark theme",
+    lightTheme: "Light theme",
+    darkTheme: "Dark theme",
+    language: "Language", // the EN/DE switch, for screen readers
+  },
+  // the names of my fields, next to their shapes (hero, case studies)
+  fieldNames: { cloud: "Cloud", devops: "DevOps", ai: "AI", code: "Code", tools: "Tools" },
+  hero: {
+    label: "Introduction",
+    fieldsLabel: "Cloud, DevOps and AI",
+    seeWork: "See my work",
+    interviewMe: "Interview me",
+    shake: "Shake",
+    shapeWords: { cloud: "cloud", devops: "devops", ai: "ai" }, // written on the three big falling shapes
+  },
+  cursorDrag: "drag",
+  marquee: ["Cloud", "DevOps", "AI agents", "Linux", "Python"],
+  about: { label: "About", habitsTitle: "How I work" },
+  journey: {
+    label: "Journey",
+    title: "From India to Germany",
+    kmLabel: "India to Germany",
+    globe: "A globe showing the way from {from} to {to}",
+  },
+  work: {
+    label: "Work",
+    title: "An exhibition of my work",
+    intro: "Three projects, from my B.Tech to a hackathon. Each poster opens the whole story.",
+    keepScrolling: "Keep scrolling",
+    swipe: "Swipe",
+    open: "Open the case study",
+    now: "Now",
+  },
+  caseStudy: {
+    close: "Close the case study",
+    why: "Why I built it",
+    tookFrom: "What I took from it",
+    flow: "How one incident flows",
+    builtWith: "Built with",
+  },
+  video: { play: "Play: {title}", note: "Plays from YouTube" },
+  skills: {
+    label: "Skills",
+    title: "What I work with",
+    filterLabel: "Filter the skills",
+    count: "{shown} of {total}",
+    certificates: "Certificates",
+    viewCert: "View the certificate: {name}",
+    inProgress: "In progress",
+    languages: "Languages",
+  },
+  interview: {
+    label: "Interview me",
+    title: "Ask what you'd ask in an interview",
+    hello: "Hi, I'm {name}. Pick a question and I'll answer. These are my real answers.",
+    lead: "Tap a question:",
+    sub: "answers from my CV and projects",
+    restart: "Start over",
+    chat: "Chat",
+    typing: "typing",
+  },
+  moments: { label: "Moments", title: "India, Germany and in between" },
+  contact: {
+    label: "06 / Contact",
+    big: "Say hell", // the big heading without its last letter: the "o" is drawn as a blue circle
+    time: "It's {time} in Weimar right now",
+    copy: "Copy",
+    copied: "Copied",
+  },
+  footer: {
+    built: "Built with React, GSAP, Lenis, matter-js and d3-geo, with help from Claude Code. Effects from React Bits.",
+    top: "Back to top ↑",
+  },
+  photoSpace: "Space for a photo: {label}",
 };

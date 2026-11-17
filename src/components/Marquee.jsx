@@ -4,20 +4,23 @@ import { useRef } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
+import { useContent } from "../hooks/language";
 import { Shape } from "./Shape";
 import "./Marquee.css";
 
 gsap.registerPlugin(ScrollTrigger);
 
-const ITEMS = [
-  ["Cloud", "circle", "var(--blue)"],
-  ["DevOps", "square", "var(--red)"],
-  ["AI agents", "triangle", "var(--yellow)"],
-  ["Linux", "half", "var(--bg)"],
-  ["Python", "bar", "var(--bg)"],
+// the shape and colour after each word; the words themselves are ui.marquee in content.js (same order)
+const SHAPES = [
+  ["circle", "var(--blue)"],
+  ["square", "var(--red)"],
+  ["triangle", "var(--yellow)"],
+  ["half", "var(--bg)"],
+  ["bar", "var(--bg)"],
 ];
 
 export default function Marquee({ reduced }) {
+  const { ui } = useContent();
   const root = useRef(null);
 
   useGSAP(
@@ -50,9 +53,9 @@ export default function Marquee({ reduced }) {
     <div className="marquee" ref={root}>
       <div className="marquee__track">
         {[0, 1].map((copy) =>
-          ITEMS.map(([word, shape, color]) => (
-            <span key={`${copy}-${word}`} className="marquee__item">
-              {word} <Shape kind={shape} color={color} size={34} />
+          ui.marquee.map((word, i) => (
+            <span key={`${copy}-${i}`} className="marquee__item">
+              {word} <Shape kind={SHAPES[i][0]} color={SHAPES[i][1]} size={34} />
             </span>
           )),
         )}

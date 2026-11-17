@@ -13,8 +13,9 @@ const GRATICULE = geoGraticule10();
 const SIZE = 600;
 const STEPS = 64; // points along the trip line
 
-/** from, to: { name, coords: [lon, lat] }; start: { turn, trip } to draw first (the scroll may already be past). */
-const Globe = forwardRef(function Globe({ from, to, start }, ref) {
+/** from, to: { name, coords: [lon, lat] }; start: { turn, trip } to draw first (the scroll may already be past);
+    label: what screen readers say about the globe, in the page's language. */
+const Globe = forwardRef(function Globe({ from, to, start, label }, ref) {
   const land = useRef(null);
   const grid = useRef(null);
   const trip = useRef(null);
@@ -71,8 +72,7 @@ const Globe = forwardRef(function Globe({ from, to, start }, ref) {
   }, []);
 
   return (
-    <svg viewBox={`0 0 ${SIZE} ${SIZE}`} className="globe" role="img"
-      aria-label={`A globe showing the way from ${from.name} to ${to.name}`}>
+    <svg viewBox={`0 0 ${SIZE} ${SIZE}`} className="globe" role="img" aria-label={label}>
       <circle className="globe__sea" cx={SIZE / 2} cy={SIZE / 2} r={SIZE / 2 - 8} />
       <path className="globe__grid" ref={grid} />
       <path className="globe__land" ref={land} />

@@ -1,13 +1,15 @@
 // ThemeToggle.jsx: the light/dark switch. A yellow sun with rays by day; at night a circle slides over it and
 // leaves a crescent moon. The page itself switches with a circle growing out of this button (theme.js).
+import { useContent } from "../hooks/language";
 
 /** theme: "light" or "dark"; onToggle: switches it (gets the click, for where the circle starts). */
 export default function ThemeToggle({ theme, onToggle }) {
+  const { ui } = useContent();
   const dark = theme === "dark";
   return (
     <button type="button" className={`toggle${dark ? " toggle--dark" : ""}`} onClick={onToggle}
-      aria-label={dark ? "Switch to the light theme" : "Switch to the dark theme"}
-      title={dark ? "Light theme" : "Dark theme"}>
+      aria-label={dark ? ui.nav.toLight : ui.nav.toDark}
+      title={dark ? ui.nav.lightTheme : ui.nav.darkTheme}>
       <svg viewBox="0 0 32 32" aria-hidden="true">
         <mask id="toggle-cut">
           <rect width="32" height="32" fill="#fff" />

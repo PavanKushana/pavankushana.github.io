@@ -9,9 +9,13 @@ import "@fontsource/dm-mono/400.css";
 import "@fontsource/dm-mono/500.css";
 import "./styles/global.css";
 import App from "./App";
+import { LanguageProvider } from "./hooks/language";
 
+// LanguageProvider: English or German for every part of the page (hooks/language.js)
 createRoot(document.getElementById("root")).render(
   <StrictMode>
-    <App />
+    <LanguageProvider>
+      <App />
+    </LanguageProvider>
   </StrictMode>,
 );

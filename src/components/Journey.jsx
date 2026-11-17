@@ -9,7 +9,7 @@ import { useGSAP } from "@gsap/react";
 import Head from "./Head";
 import Photo from "./Photo";
 import { Shape } from "./Shape";
-import { chapters, distanceKm, places } from "../content";
+import { fill, useContent } from "../hooks/language";
 import "./Journey.css";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -18,9 +18,13 @@ const Globe = lazy(() => import("./Globe")); // d3 and the map data load only wh
 const TRIP = [0.32, 0.54]; // where in the section's scroll the trip happens (as shares of it)
 const STILL = { turn: 0.5, trip: 1 }; // the still picture: turned halfway, so both cities and the whole line show
 const easeInOut = (x) => (x < 0.5 ? 2 * x * x : 1 - (-2 * x + 2) ** 2 / 2);
-const km = (share) => `${(Math.round((share * distanceKm) / 10) * 10).toLocaleString("en-US")} km`;
 
 export default function Journey({ reduced }) {
+  const { chapters, distanceKm, places, ui } = useContent();
+  // the km counter: "6,900 km" in English, "6.900 km" in German. Kept in a ref, because the scroll animation
+  // below is set up once and must still use the language that's on now.
+  const km = useRef(null);
+  km.current = (share) => `${(Math.round((share * distanceKm) / 10) * 10).toLocaleString(ui.numberLocale)} km`;
   const root = useRef(null);
   const globe = useRef(null);
   const counter = useRef(null);
@@ -44,7 +48,7 @@ export default function Journey({ reduced }) {
             const share = easeInOut(Math.min(1, Math.max(0, (progress - TRIP[0]) / (TRIP[1] - TRIP[0]))));
             view.current = { turn: share, trip: share };
             globe.current?.render(share, share);
-            if (counter.current) counter.current.textContent = km(share);
+            if (counter.current) counter.current.textContent = km.current(share);
             setActive(Math.min(chapters.length - 1, Math.floor(progress * chapters.length)));
           },
         });
@@ -53,7 +57,7 @@ export default function Journey({ reduced }) {
           setPinned(false);
           view.current = STILL;
           globe.current?.render(STILL.turn, STILL.trip);
-          if (counter.current) counter.current.textContent = km(1);
+          if (counter.current) counter.current.textContent = km.current(1);
         };
       });
       // phones and small tablets: the section isn't pinned, but the trip (and the plane) still follows the scroll
@@ -61,7 +65,7 @@ export default function Journey({ reduced }) {
       media.add("(max-width: 900px) and (prefers-reduced-motion: no-preference)", () => {
         view.current = { turn: 0, trip: 0 };
         globe.current?.render(0, 0);
-        if (counter.current) counter.current.textContent = km(0);
+        if (counter.current) counter.current.textContent = km.current(0);
         ScrollTrigger.create({
           trigger: ".journey__globe",
           start: "top 85%",
@@ -71,13 +75,13 @@ export default function Journey({ reduced }) {
             const share = easeInOut(progress);
             view.current = { turn: share, trip: share };
             globe.current?.render(share, share);
-            if (counter.current) counter.current.textContent = km(share);
+            if (counter.current) counter.current.textContent = km.current(share);
           },
         });
         return () => {
           view.current = STILL;
           globe.current?.render(STILL.turn, STILL.trip);
-          if (counter.current) counter.current.textContent = km(1);
+          if (counter.current) counter.current.textContent = km.current(1);
         };
       });
       return () => media.revert();
@@ -90,26 +94,32 @@ export default function Journey({ reduced }) {
     ScrollTrigger.refresh();
   }, [pinned]);
 
+  // the language changed: write the km counter again in the new number format, at the point the trip is at now
+  useEffect(() => {
+    if (counter.current) counter.current.textContent = km.current(view.current.trip);
+  }, [ui]);
+
   return (
     <section id="journey" className={`section journey${pinned ? " journey--pinned" : ""}`} ref={root}>
       <div className="container">
-        <Head num={2} label="Journey" title="From India to Germany" />
+        <Head num={2} label={ui.journey.label} title={ui.journey.title} />
       </div>
       <div className="journey__stage">
         <div className="container journey__grid">
           <div className="journey__globe">
             <Suspense fallback={<div className="journey__globe-wait" />}>
-              <Globe ref={globe} from={places.india} to={places.germany} start={view.current} />
+              <Globe ref={globe} from={places.india} to={places.germany} start={view.current}
+                label={fill(ui.journey.globe, { from: places.india.name, to: places.germany.name })} />
             </Suspense>
             <p className="journey__km mono">
-              <span ref={counter}>{km(pinned ? 0 : 1)}</span>
-              <span className="journey__km-label">India to Germany</span>
+              <span ref={counter}>{km.current(pinned ? 0 : 1)}</span>
+              <span className="journey__km-label">{ui.journey.kmLabel}</span>
             </p>
           </div>
 
           <ol className="journey__chapters">
             {chapters.map(({ year, place, title, text, photo }, i) => (
-              <li key={title} className={`chapter${i === active ? " is-active" : ""}`} aria-current={pinned && i === active ? "step" : undefined}>
+              <li key={i} className={`chapter${i === active ? " is-active" : ""}`} aria-current={pinned && i === active ? "step" : undefined}>
                 <p className="chapter__year">{year}</p>
                 <p className="chapter__place mono">
                   <Shape kind={place === "germany" ? "circle" : "square"} color={place === "germany" ? "var(--blue)" : "var(--red)"} size={14} />
@@ -124,8 +134,8 @@ export default function Journey({ reduced }) {
 
           {pinned && (
             <ol className="journey__steps" aria-hidden="true">
-              {chapters.map(({ year, title }, i) => (
-                <li key={title} className={i <= active ? "is-done" : ""}>
+              {chapters.map(({ year }, i) => (
+                <li key={i} className={i <= active ? "is-done" : ""}>
                   <span />
                   {year}
                 </li>

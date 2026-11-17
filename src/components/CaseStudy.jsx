@@ -7,13 +7,15 @@ import { gsap } from "gsap";
 import { useGSAP } from "@gsap/react";
 import Photo from "./Photo";
 import VideoEmbed from "./VideoEmbed";
-import { FieldShape, FIELD } from "./Shape";
+import { FieldShape } from "./Shape";
+import { useContent } from "../hooks/language";
 import { pauseScroll } from "../hooks/motion";
 import { ArrowUpRightIcon, CloseIcon } from "./Icons";
 import "./CaseStudy.css";
 
 /** project: the project from content.js; reduced: no slide; onClose: called after the panel has slid away. */
 export default function CaseStudy({ project, reduced, onClose }) {
+  const { ui } = useContent();
   const panel = useRef(null);
   const backdrop = useRef(null);
   const closeButton = useRef(null);
@@ -73,7 +75,7 @@ export default function CaseStudy({ project, reduced, onClose }) {
     <div className="case" role="dialog" aria-modal="true" aria-labelledby="case-title">
       <div className="case__backdrop" ref={backdrop} onClick={close} />
       <article className="case__panel" ref={panel} data-lenis-prevent>
-        <button type="button" className="case__close" ref={closeButton} onClick={close} aria-label="Close the case study">
+        <button type="button" className="case__close" ref={closeButton} onClick={close} aria-label={ui.caseStudy.close}>
           <CloseIcon />
         </button>
 
@@ -81,7 +83,7 @@ export default function CaseStudy({ project, reduced, onClose }) {
           <p className="case__meta mono">
             {fields.map((field) => (
               <span key={field}>
-                <FieldShape field={field} size={14} /> {FIELD[field].label}
+                <FieldShape field={field} size={14} /> {ui.fieldNames[field]}
               </span>
             ))}
             <span>{year}</span>
@@ -95,15 +97,15 @@ export default function CaseStudy({ project, reduced, onClose }) {
           <div className="case__main">
             <p className="case__summary">{summary}</p>
             <blockquote className="case__why">
-              <span className="mono">{steps ? "Why I built it" : "What I took from it"}</span>
+              <span className="mono">{steps ? ui.caseStudy.why : ui.caseStudy.tookFrom}</span>
               {why}
             </blockquote>
             {steps && (
               <>
-                <h3 className="case__sub">How one incident flows</h3>
+                <h3 className="case__sub">{ui.caseStudy.flow}</h3>
                 <ol className="case__steps">
                   {steps.map(([name, text], i) => (
-                    <li key={name}>
+                    <li key={i}>
                       <span className="case__step-num">{i + 1}</span>
                       <span>
                         <strong>{name}</strong> {text}
@@ -119,17 +121,17 @@ export default function CaseStudy({ project, reduced, onClose }) {
             {video && <VideoEmbed id={video.id} title={video.title} />}
             {stats && (
               <dl className="case__stats">
-                {stats.map(({ value, label }) => (
-                  <div key={label}>
+                {stats.map(({ value, label }, i) => (
+                  <div key={i}>
                     <dt>{value}</dt>
                     <dd>{label}</dd>
                   </div>
                 ))}
               </dl>
             )}
-            <ul className="tags" aria-label="Built with">
-              {stack.map((item) => (
-                <li key={item} className="tag">{item}</li>
+            <ul className="tags" aria-label={ui.caseStudy.builtWith}>
+              {stack.map((item, i) => (
+                <li key={i} className="tag">{item}</li>
               ))}
             </ul>
             <div className="case__links">
@@ -144,7 +146,7 @@ export default function CaseStudy({ project, reduced, onClose }) {
 
         <div className="case__shots">
           {shots.map((shot, i) => (
-            <Photo key={shot.label} photo={shot} accent={i} className="case__shot" />
+            <Photo key={i} photo={shot} accent={i} className="case__shot" />
           ))}
         </div>
       </article>
